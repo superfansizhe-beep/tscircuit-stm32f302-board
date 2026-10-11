@@ -17,12 +17,12 @@
  *   多页堆叠图 → resvg 会 panic，只能走 macOS 的 qlmanage
  */
 import { PAGES } from "./pages"
-import { McuSection } from "./modules/02-mcu"
+import { UartSection } from "./modules/03-uart"
 
-// 当前预览：最小系统页
-const SHEET_NAME: (typeof PAGES)[number]["name"] = "mcu"
-const SHEET_DISPLAY_NAME = "最小系统"
-const PREVIEW = <McuSection />
+// 当前预览：串口 UART 页
+const SHEET_NAME: (typeof PAGES)[number]["name"] = "uart"
+const SHEET_DISPLAY_NAME = "串口 UART"
+const PREVIEW = <UartSection />
 
 export default () => (
   <board width="80mm" height="80mm" layers={2}>

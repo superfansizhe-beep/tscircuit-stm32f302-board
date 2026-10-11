@@ -128,7 +128,7 @@ export const PowerSection = () => (
       pcbX={-6} pcbY={-8} schX={-6} schY={-7} />
     <led name="D2" color="green" footprint="jlcpcb:C84267"
       supplierPartNumbers={{ jlcpcb: ["C84267"] }}
-      pinLabels={{ pin1: "anode", pin2: "cathode" }}
+      pinLabels={{ pin1: "cathode", pin2: "anode" }}
       pcbX={-2} pcbY={-8} schX={-2.5} schY={-7} />
 
     <resistor name="R3" resistance="330" footprint="0603"
@@ -136,7 +136,7 @@ export const PowerSection = () => (
       pcbX={2} pcbY={-8} schX={2} schY={-7} />
     <led name="D3" color="blue" footprint="jlcpcb:C84266"
       supplierPartNumbers={{ jlcpcb: ["C84266"] }}
-      pinLabels={{ pin1: "anode", pin2: "cathode" }}
+      pinLabels={{ pin1: "cathode", pin2: "anode" }}
       pcbX={6} pcbY={-8} schX={5.5} schY={-7} />
   </subcircuit>
 )

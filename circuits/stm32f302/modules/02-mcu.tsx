@@ -10,7 +10,7 @@
  *   SW2  RESET 按键      SMD-4P        C318884
  *   SW3  BOOT 按键       SMD-4P        C318884
  *   J11  SWD 调试口      2x5 2.54mm    C42431818
- *   FB1  磁珠 600Ω@100MHz 0603         C1002     VDDA 隔离
+ *   FB1  磁珠 600Ω@100MHz 0603         C19330    VDDA 隔离（BLM18AG601SN1D）
  *   C10–C13  100nF ×4   0603   C14663   VDD 逐脚去耦
  *   C14      4.7µF      0603   C19666   VDD 总储能
  *   C15      1µF        0603   C15849   VDDA 滤波
@@ -36,9 +36,10 @@
  *        本页约 **48 × 34 mm**（9 个模块里最大的一个）。
  *   原理图：可用区 x ∈ [−15.5, 15.5] / y ∈ [−10.8, 10.8]，不是 A4 的 297×210。
  *
- * ── 已知瑕疵 ────────────────────────────────────────────────────────────
- *   FB1（磁珠 C1002）的 EasyEDA 封装**没有 courtyard 定义**，所以构建会报
- *   一条 pcb_component_missing_courtyard_warning。不影响电气与制造。
+ * ── 实测踩的坑 ──────────────────────────────────────────────────────────
+ *   磁珠最初选 C1002（GZ1608D601TF），构建报成功但 **FB1 一个焊盘都没有** ——
+ *   EasyEDA 库里没有这个元件的封装（external_footprint_load_error）。
+ *   同系列的 C1003 也一样。改用 Murata BLM18AG601SN1D（C19330）后正常，2 个焊盘。
  *
  * ── 状态：器件放置完成，未接线 ──────────────────────────────────────────
  */
@@ -170,9 +171,9 @@ export const McuSection = () => (
       pcbX={10} pcbY={0} schX={10} schY={3} />
 
     {/* ══ VDDA 隔离与滤波 ═══════════════════════════════════════════════ */}
-    <chip name="FB1" footprint="jlcpcb:C1002"
-      manufacturerPartNumber="GZ1608D601TF"
-      supplierPartNumbers={{ jlcpcb: ["C1002"] }}
+    <chip name="FB1" footprint="jlcpcb:C19330"
+      manufacturerPartNumber="BLM18AG601SN1D"
+      supplierPartNumbers={{ jlcpcb: ["C19330"] }}
       pinLabels={{ pin1: "1", pin2: "2" }}
       pcbX={-14} pcbY={0} schX={-2} schY={3} />
     <capacitor name="C15" capacitance="1uF" footprint="0603"
