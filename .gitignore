@@ -1,0 +1,11 @@
+node_modules/
+out/*
+!out/.gitkeep
+.tscircuit/
+*.log
+.DS_Store
+
+# -f circuit-json 会在电路文件旁额外写一份同名 sidecar（见 README「已知问题」）
+circuits/*.circuit.jsonchecks/
+dist/
+*.circuit.json

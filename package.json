@@ -1,0 +1,18 @@
+{
+  "name": "my-tscircuit",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "bun": ">=1.3.0"
+  },
+  "dependencies": {
+    "@tscircuit/cli": "0.1.2277",
+    "tscircuit": "0.0.2790"
+  },
+  "overrides": {
+    "@tscircuit/core": "0.0.2119"
+  },
+  "patchedDependencies": {
+    "@tscircuit/core@0.0.2119": "patches/@tscircuit%2Fcore@0.0.2119.patch"
+  }
+}

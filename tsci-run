@@ -1,0 +1,45 @@
+#!/usr/bin/env bun
+/**
+ * 自建 wrapper 脚本（注意：不是 CLI 自带的 bin）
+ *
+ * 存在的两个理由：
+ *  1. node_modules/.bin/tscircuit-cli 的 shebang 是 `#!/usr/bin/env node`，
+ *     直接执行会落到 Node 上 → ERR_UNSUPPORTED_DIR_IMPORT（Node 不允许目录 import）。
+ *     这里用 process.execPath（Bun 自身绝对路径）强制 Bun 运行时。
+ *  2. 不要用 `bunx --bun @tscircuit/cli`——bunx 会在临时目录重新解析依赖，
+ *     完全绕开本项目的 node_modules 和 package.json 的 overrides，
+ *     等于把「第 2 条契约」作废。必须调用本地钉死的那一份。
+ */
+import { existsSync } from "node:fs"
+import { join } from "node:path"
+
+const args = Bun.argv.slice(2)
+const root = import.meta.dir
+const cli = join(root, "node_modules", "@tscircuit", "cli", "cli", "entrypoint.js")
+
+if (args.length === 0) {
+  console.error(
+    [
+      "用法: ./tsci-run <command> [args]",
+      "",
+      "  ./tsci-run dev circuits/blink.tsx                 → http://localhost:3020",
+      "  ./tsci-run export circuits/blink.tsx -f pcb-svg -o out/",
+      "",
+      "命令: dev | export | build",
+      "格式: -f schematic-svg | pcb-svg | readable-netlist | gerbers | ...",
+    ].join("\n"),
+  )
+  process.exit(1)
+}
+
+if (!existsSync(cli)) {
+  console.error(`未找到本地 CLI：${cli}\n先在 ${root} 下跑 bun install`)
+  process.exit(1)
+}
+
+const proc = Bun.spawn([process.execPath, cli, ...args], {
+  stdio: ["inherit", "inherit", "inherit"],
+  cwd: root,
+})
+
+process.exit(await proc.exited)

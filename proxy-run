@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#
+# 契约第 4 条：启动本地 gost 中继，供 scripts/proxy-fetch.ts 使用
+#
+# 前台运行，Ctrl-C 停止。需要后台常驻见 README「代理调试」。
+#
+# ⚠️ 不要用 `brew services start gost`：Homebrew 默认配置 /opt/homebrew/etc/gost.yml
+#    监听的是 :8080 且绑 eth0，与本契约要求的 127.0.0.1:8118 不符。
+#
+set -euo pipefail
+
+HOST="${GOST_PROXY_HOST:-127.0.0.1}"
+PORT="${GOST_PROXY_PORT:-8118}"
+
+if ! command -v gost >/dev/null 2>&1; then
+  echo "gost 未安装。装法：brew install gost" >&2
+  exit 1
+fi
+
+if nc -z -w 1 "$HOST" "$PORT" 2>/dev/null; then
+  echo "警告：$HOST:$PORT 已在监听，可能重复启动" >&2
+fi
+
+echo "gost 中继启动中： http://$HOST:$PORT"
+echo "自检： curl -x http://$HOST:$PORT https://easyeda.com/ -o /dev/null -w '%{http_code}\\n'"
+exec gost -L "http://$HOST:$PORT" "$@"

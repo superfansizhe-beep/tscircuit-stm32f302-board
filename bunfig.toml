@@ -1,0 +1,7 @@
+# 契约：preload 是项目级配置，只在本目录里跑的 bun 命令会加载
+# 等价于 CLI 的 --preload / --require / --import
+preload = ["./scripts/proxy-fetch.ts"]
+
+[install]
+# 契约：锁死依赖解析，避免 overrides 被上浮
+exact = false

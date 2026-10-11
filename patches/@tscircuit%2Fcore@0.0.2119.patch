@@ -1,0 +1,37 @@
+diff --git a/dist/index.js b/dist/index.js
+index 0c3494b0fb597e5414127ff874f0c3540adb9793..41877ec9767225903c5c529f5e29d280d015cfea 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -21384,6 +21384,16 @@ function getAutoroutingPhasePcbTracePaths({
+         );
+       }
+     }
++    const connectionByTerminal = /* @__PURE__ */ new Map();
++    for (const connection of input.connections) {
++      for (const point of connection.pointsToConnect) {
++        connectionByTerminal.set(point, connection);
++      }
++    }
++    const portName = (terminal) => {
++      const terminalPort = terminal.pcb_port_id ? portsByPcbPortId.get(terminal.pcb_port_id) : void 0;
++      return terminal.port_selector ?? (terminalPort === null || terminalPort === void 0 ? void 0 : terminalPort.getPortSelector()) ?? "unnamed port";
++    };
+     const paths = [];
+     const usedPorts = /* @__PURE__ */ new Set();
+     const remainingRoutes = new Set(routes.keys());
+@@ -21404,6 +21414,15 @@ function getAutoroutingPhasePcbTracePaths({
+           if (subcircuit.selectOne(selector, { type: "port" }) !== port) {
+             throw new Error(`PCB port selector is not unique: ${selector}`);
+           }
++          const anchorConnection = connectionByTerminal.get(terminal);
++          const oppositeTerminal = endpoints[routeIndex][reverse4 ? 0 : 1].filter(
++            (opposite) => opposite.pcb_port_id && connectionByTerminal.get(opposite) !== anchorConnection
++          ).at(0);
++          if (oppositeTerminal && !isFanout) {
++            throw new Error(
++              `Route between ${portName(terminal)} and ${portName(oppositeTerminal)} spans separate connections of the same net; the router reached one port through the other instead of tracing between them, which a saved path cannot express`
++            );
++          }
+           const route = reverse4 ? routes[routeIndex].toReversed().map(
+             (point6) => point6.route_type === "via" ? {
+               ...point6,
