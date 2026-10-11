@@ -92,6 +92,13 @@ export const NET = {
   GPIO_LED2: "net.GPIO_LED2",
   GPIO_LED3: "net.GPIO_LED3",
 
+  // ── CAN 总线侧（CAN 页内部）────────────────────────────────────────
+  CANH: "net.CANH",
+  CANL: "net.CANL",
+
+  // ── MCP23S17 复位（SPI 页内部，由 R26 上拉）────────────────────────
+  MCP_RESET: "net.MCP_RESET",
+
   // ── 调试口（最小系统页 ↔ SWD 排针，同页）──────────────────────────
   SWDIO: "net.SWDIO",
   SWCLK: "net.SWCLK",
