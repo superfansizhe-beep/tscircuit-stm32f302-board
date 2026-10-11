@@ -89,7 +89,7 @@ const Divider = (props: {
 )
 
 export const AdcSection = () => (
-  <subcircuit name="ADC" schSheetName={SHEET}>
+  <group name="ADC" schSheetName={SHEET}>
     {/* ══ 12V 采样：100k / 27k → 2.551V ════════════════════════════════ */}
     <Divider top="100k" bottom="27k" refTop="R30" refBottom="R31" refCap="C35" pcbX={-10} schX={-8} />
 
@@ -98,5 +98,5 @@ export const AdcSection = () => (
 
     {/* ══ 3.3V 采样：10k / 33k → 2.533V ═════════════════════════════════ */}
     <Divider top="10k" bottom="33k" refTop="R34" refBottom="R35" refCap="C37" pcbX={10} schX={8} />
-  </subcircuit>
+  </group>
 )

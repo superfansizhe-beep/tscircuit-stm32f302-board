@@ -41,6 +41,13 @@ EXPECT = {
 
 # ── 具名豁免：庭院重叠，但是**故意设计**的 ──────────────────────────────
 # 每个条目都要写清楚为什么可以放行。不加理由的豁免等于放松标准。
+# ── 具名豁免：位号前缀约定 ────────────────────────────────────────────────
+# tscircuit 对 <chip> 只认 U / IC 前缀，但有些前缀是行业惯用且更准确。
+REFDES_EXCEPTIONS = {
+    "FB1": "磁珠的行业惯用前缀就是 FB（Ferrite Bead）。tscircuit 建议的 <fuse> 与 "
+    "<inductor> 都不符合器件本质。BOM 里这一行是 Murata BLM18AG601SN1D 磁珠。",
+}
+
 COURTYARD_EXCEPTIONS = {
     frozenset({"J8", "J9"}): "PWM 舵机轨：三排必须 2.54mm 紧贴，"
     "排针庭院 3.04mm 故重叠 0.50mm（本体外各 0.25mm 通用余量），物理无害",
@@ -62,6 +69,11 @@ OK_TYPES = (
     # 连接器朝向：要求"从板边可插拔"。本阶段模块还在原点、板边未定，
     # 到全局布局阶段才会把连接器摆到板边，这条届时自然消失。
     "pcb_connector_not_in_accessible_orientation_warning",
+    # 嘉立创接口偶发 HTTP 503（实测重跑即消失），属瞬时网络故障，非设计问题。
+    # 但它会让构建从 40 秒变成 5 分钟以上，看到它应该重跑一次再判断。
+    "source_part_not_found_warning",
+    # 位号前缀约定单独在 ④b 里带豁免判定，这里过滤掉避免重复列出
+    "source_refdes_convention_warning",
 )
 
 BAD_TYPES = (
@@ -69,7 +81,6 @@ BAD_TYPES = (
     "pcb_footprint_overlap_error",
     "pcb_courtyard_overlap_error",
     "schematic_element_outside_sheet_warning",
-    "source_refdes_convention_warning",
     "pcb_component_outside_board_error",
     # 下面两条是实测踩出来的真 bug，绝不能当噪声放过：
     #   external_footprint_load_error —— jlcpcb 封装在 EasyEDA 库里不存在，
@@ -89,18 +100,19 @@ def main() -> int:
     src = {e["source_component_id"]: e.get("name") for e in els if e.get("type") == "source_component"}
     pcb = {e["pcb_component_id"]: e for e in els if e.get("type") == "pcb_component"}
 
-    # 模块归属必须按 subcircuit_id 判，不能取最内层 pcb_group 的名字：
-    # 模块内部再用 <group> 包一层时（如指示灯页的三路），会生成
-    # "unnamed_group1" 这类子分组，但它们与所属子电路**共享同一个 subcircuit_id**。
-    sc_name = {
-        e.get("subcircuit_id"): e.get("name")
+    # 模块归属按 pcb_group 名判定。
+    # ⚠️ 这里有个关键背景：模块用的是 <group> 而**不是 <subcircuit>**。
+    #    原因见 README「为什么模块用 <group> 而不是 <subcircuit>」——
+    #    <subcircuit> 会把 net.X 的命名空间隔离在子电路内，跨页供电就全断了。
+    grp_name = {
+        e.get("pcb_group_id"): e.get("name")
         for e in els
-        if e.get("type") == "pcb_group" and e.get("is_subcircuit")
+        if e.get("type") == "pcb_group"
     }
 
     def mod(cid):
-        sc = pcb.get(cid, {}).get("subcircuit_id")
-        return sc_name.get(sc, sc or "?")
+        g = pcb.get(cid, {}).get("pcb_group_id")
+        return grp_name.get(g) or g or "?"
 
     def nm(cid):
         return src.get(pcb.get(cid, {}).get("source_component_id"), "?")
@@ -175,6 +187,26 @@ def main() -> int:
     n = counts.get("schematic_element_outside_sheet_warning", 0)
     print(f"  {'✅' if n == 0 else '❌'} {n} 个")
     fail += n
+
+    print()
+    print("=" * 68)
+    print("④b 位号前缀约定")
+    print("=" * 68)
+    n_bad = 0
+    for e in els:
+        if e.get("type") != "source_refdes_convention_warning":
+            continue
+        ref = e.get("refdes") or ""
+        if ref in REFDES_EXCEPTIONS:
+            print(f"  ℹ️  已豁免 {ref}: {REFDES_EXCEPTIONS[ref][:70]}")
+        else:
+            print(f"  ❌ {ref}: {str(e.get('message'))[:100]}")
+            n_bad += 1
+    if not n_bad and not any(
+        e.get("type") == "source_refdes_convention_warning" for e in els
+    ):
+        print("  ✅ 0 个")
+    fail += n_bad
 
     print()
     print("=" * 68)

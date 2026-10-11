@@ -72,7 +72,7 @@ const SPI_PORT_PINS = {
 } as const
 
 export const SpiSection = () => (
-  <subcircuit name="SPI" schSheetName={SHEET}>
+  <group name="SPI" schSheetName={SHEET}>
     {/* ══ SPI2 → MCP23S17 ═══════════════════════════════════════════════ */}
     <chip
       name="U6"
@@ -166,5 +166,5 @@ export const SpiSection = () => (
       schX={-11}
       schY={8}
     />
-  </subcircuit>
+  </group>
 )

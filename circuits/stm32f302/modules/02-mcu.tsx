@@ -4,46 +4,34 @@
  * STM32F302R8T6 最小系统：8MHz 外部晶振 + RESET 按键 + BOOT 按键 + SWD 调试口 + 全套去耦
  * 题目明说「可以不用低速晶振」，所以**不装 LSE（32.768kHz）**，PC14/PC15 留空。
  *
- * ── 本页器件（20 个）────────────────────────────────────────────────────
- *   U3   STM32F302R8T6  LQFP-64       C504601   主控
- *   Y1   8MHz 无源晶振   SMD3225-4P    C400090   HSE（接 PF0 / PF1）
- *   SW2  RESET 按键      SMD-4P        C318884
- *   SW3  BOOT 按键       SMD-4P        C318884
- *   J11  SWD 调试口      2x5 2.54mm    C42431818
- *   FB1  磁珠 600Ω@100MHz 0603         C19330    VDDA 隔离（BLM18AG601SN1D）
- *   C10–C13  100nF ×4   0603   C14663   VDD 逐脚去耦
- *   C14      4.7µF      0603   C19666   VDD 总储能
- *   C15      1µF        0603   C15849   VDDA 滤波
- *   C16      10nF       0603   C1589    VDDA 高频
- *   C17      100nF      0603   C14663   VBAT 去耦
- *   C18 C19  12pF ×2    0603   C107034  晶振负载电容
- *   C20      100nF      0603   C14663   NRST 滤波
- *   R10      10k        0603   C25804   NRST 上拉
- *   R11      10k        0603   C25804   BOOT0 下拉
- *   R12      10k        0603   C25804   BOOT1(PB2) 下拉
+ * ── 本页是全局枢纽 ──────────────────────────────────────────────────────
+ *   主控的每个功能引脚都接到一条**命名网络**上，其余八页各自引用同一个网名，
+ *   跨页连接就自动成立 —— 本页不需要知道对方在哪一页。
+ *   网名全部来自 `nets.ts`（唯一权威），避免手写字符串写串而不报错。
  *
- * ── 晶振负载电容怎么算的（不是随手填 12pF）──────────────────────────────
- *   CL = C/2 + Cstray，Y1 规格 CL = 10pF，Cstray 取 ~4pF
- *   → C = 2 × (10 − 4) = 12pF。两颗都用 12pF。
+ * ── 器件内部关系（EasyEDA 符号/封装核实，不是猜的）──────────────────────
+ *   Y1 8MHz 3225 四脚晶振：pin1/pin3 = 晶振端子，pin2/pin4 = 外壳地
+ *     （依据：PCB 图白点定 pin1 在左下、逆时针编号；符号图显示端子走对角）
+ *   SW2/SW3 TS-1187A 四脚轻触开关：**pin1=pin2 是一组触点，pin3=pin4 是另一组**
+ *     （依据：符号图上下两根横杠各把两个脚连在一起）
+ *     本项目把四个脚都接上，既保证导通，也不留悬空脚。
  *
  * ── 引脚表从哪来 ────────────────────────────────────────────────────────
  *   64 条 pinLabels 由 ST 官方 STM32_open_pin_data 的 STM32F302R(6-8)Tx.xml
- *   **程序化生成**，不是手抄。同名端口在 PINMAP.md 里有完整分配。
+ *   **程序化生成**，不是手抄。完整分配见 PINMAP.md。
+ *
+ *   ⚠️ 多实例电源脚（VDD 有 4 个、VSS 有 4 个）同名，引用时必须用**脚号**
+ *      （U3.pin19 / pin32 / pin48 / pin64），用名字只能指到其中一个。
  *
  * ── 坐标（实测标定）─────────────────────────────────────────────────────
- *   PCB：实测庭院尺寸 —— U3 是 13.99×13.99mm、按键 7.51×5.71mm、
- *        SWD 排针 13.23×5.58mm。间距按这些真实数字排，不靠感觉。
- *        本页约 **48 × 34 mm**（9 个模块里最大的一个）。
+ *   PCB：U3 庭院 13.99×13.99mm、按键 7.51×5.71mm、SWD 排针 13.23×5.58mm，
+ *        间距按这些真实数字排。本页约 48 × 34 mm（九页里最大的）。
  *   原理图：可用区 x ∈ [−15.5, 15.5] / y ∈ [−10.8, 10.8]，不是 A4 的 297×210。
  *
- * ── 实测踩的坑 ──────────────────────────────────────────────────────────
- *   磁珠最初选 C1002（GZ1608D601TF），构建报成功但 **FB1 一个焊盘都没有** ——
- *   EasyEDA 库里没有这个元件的封装（external_footprint_load_error）。
- *   同系列的 C1003 也一样。改用 Murata BLM18AG601SN1D（C19330）后正常，2 个焊盘。
- *
- * ── 状态：器件放置完成，未接线 ──────────────────────────────────────────
+ * ── 状态：器件放置 + 接线 完成 ──────────────────────────────────────────
  */
 import { PAGES } from "../pages"
+import { NET } from "../nets"
 
 const SHEET: (typeof PAGES)[number]["name"] = "mcu"
 
@@ -116,7 +104,7 @@ const F302_PINS = {
 } as const
 
 export const McuSection = () => (
-  <subcircuit name="MCU" schSheetName={SHEET}>
+  <group name="MCU" schSheetName={SHEET}>
     {/* ══ 主控 ═══════════════════════════════════════════════════════════ */}
     <chip
       name="U3"
@@ -135,10 +123,9 @@ export const McuSection = () => (
       pcbX={0} pcbY={0} schX={0} schY={0}
     />
 
-    {/* ══ HSE 8MHz 晶振 + 12pF 负载电容 ═════════════════════════════════ */}
+    {/* ══ HSE 8MHz 晶振 ═════════════════════════════════════════════════ */}
     <crystal name="Y1" frequency="8MHz" loadCapacitance="10pF" pinVariant="four_pin"
-      footprint="jlcpcb:C400090"
-      manufacturerPartNumber="TAXM8M4RDBCCT2T"
+      footprint="jlcpcb:C400090" manufacturerPartNumber="TAXM8M4RDBCCT2T"
       supplierPartNumbers={{ jlcpcb: ["C400090"] }}
       pcbX={0} pcbY={12} schX={-6} schY={7} />
     <capacitor name="C18" capacitance="12pF" footprint="0603"
@@ -148,69 +135,187 @@ export const McuSection = () => (
       supplierPartNumbers={{ jlcpcb: ["C107034"] }}
       pcbX={4.5} pcbY={12} schX={-2} schY={7} />
 
-    {/* ══ VDD 去耦：四颗 100nF 贴四角 + 一颗 4.7µF 总储能 ══════════════ */}
+    {/* ══ VDD 去耦 ══════════════════════════════════════════════════════ */}
     <capacitor name="C10" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C14663"] }}
-      pcbX={-10} pcbY={9.5} schX={2} schY={7} />
+      supplierPartNumbers={{ jlcpcb: ["C14663"] }} pcbX={-10} pcbY={9.5} schX={2} schY={7} />
     <capacitor name="C11" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C14663"] }}
-      pcbX={10} pcbY={9.5} schX={6} schY={7} />
+      supplierPartNumbers={{ jlcpcb: ["C14663"] }} pcbX={10} pcbY={9.5} schX={6} schY={7} />
     <capacitor name="C12" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C14663"] }}
-      pcbX={-10} pcbY={-9.5} schX={10} schY={7} />
+      supplierPartNumbers={{ jlcpcb: ["C14663"] }} pcbX={-10} pcbY={-9.5} schX={10} schY={7} />
     <capacitor name="C13" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C14663"] }}
-      pcbX={10} pcbY={-9.5} schX={-10} schY={-3} />
+      supplierPartNumbers={{ jlcpcb: ["C14663"] }} pcbX={10} pcbY={-9.5} schX={-10} schY={-3} />
     <capacitor name="C14" capacitance="4.7uF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C19666"] }}
-      pcbX={-10} pcbY={0} schX={-6} schY={3} />
+      supplierPartNumbers={{ jlcpcb: ["C19666"] }} pcbX={-10} pcbY={0} schX={-6} schY={3} />
 
-    {/* ══ VBAT 去耦 ═════════════════════════════════════════════════════ */}
+    {/* ══ VBAT ══════════════════════════════════════════════════════════ */}
     <capacitor name="C17" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C14663"] }}
-      pcbX={10} pcbY={0} schX={10} schY={3} />
+      supplierPartNumbers={{ jlcpcb: ["C14663"] }} pcbX={10} pcbY={0} schX={10} schY={3} />
 
     {/* ══ VDDA 隔离与滤波 ═══════════════════════════════════════════════ */}
     <chip name="FB1" footprint="jlcpcb:C19330"
       manufacturerPartNumber="BLM18AG601SN1D"
       supplierPartNumbers={{ jlcpcb: ["C19330"] }}
-      pinLabels={{ pin1: "1", pin2: "2" }}
+      pinLabels={{ pin1: "IN", pin2: "OUT" }}
+      pinAttributes={{ IN: { requiresPower: true }, OUT: { providesPower: true } }}
       pcbX={-14} pcbY={0} schX={-2} schY={3} />
     <capacitor name="C15" capacitance="1uF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C15849"] }}
-      pcbX={-14} pcbY={5} schX={2} schY={3} />
+      supplierPartNumbers={{ jlcpcb: ["C15849"] }} pcbX={-14} pcbY={5} schX={2} schY={3} />
     <capacitor name="C16" capacitance="10nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C1589"] }}
-      pcbX={-14} pcbY={-5} schX={6} schY={3} />
+      supplierPartNumbers={{ jlcpcb: ["C1589"] }} pcbX={-14} pcbY={-5} schX={6} schY={3} />
 
-    {/* ══ RESET：上拉 + 滤波 ═══════════════════════════════════════════ */}
+    {/* ══ RESET / BOOT 阻容与按键 ═══════════════════════════════════════ */}
     <resistor name="R10" resistance="10k" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C25804"] }}
-      pcbX={-14} pcbY={12} schX={-6} schY={-3} />
+      supplierPartNumbers={{ jlcpcb: ["C25804"] }} pcbX={-14} pcbY={12} schX={-6} schY={-3} />
     <capacitor name="C20" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C14663"] }}
-      pcbX={-19} pcbY={12} schX={-2} schY={-3} />
-
-    {/* ══ BOOT：BOOT0 下拉 + BOOT1(PB2) 下拉 ═══════════════════════════ */}
+      supplierPartNumbers={{ jlcpcb: ["C14663"] }} pcbX={-19} pcbY={12} schX={-2} schY={-3} />
     <resistor name="R11" resistance="10k" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C25804"] }}
-      pcbX={-19} pcbY={-9.5} schX={2} schY={-3} />
+      supplierPartNumbers={{ jlcpcb: ["C25804"] }} pcbX={-19} pcbY={-9.5} schX={2} schY={-3} />
     <resistor name="R12" resistance="10k" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C25804"] }}
-      pcbX={-14} pcbY={-9.5} schX={6} schY={-3} />
-
-    {/* ══ 按键 ═════════════════════════════════════════════════════════ */}
-    <switch name="SW2" footprint="jlcpcb:C318884"
-      manufacturerPartNumber="TS-1187A-B-A-B"
+      supplierPartNumbers={{ jlcpcb: ["C25804"] }} pcbX={-14} pcbY={-9.5} schX={6} schY={-3} />
+    <switch name="SW2" footprint="jlcpcb:C318884" manufacturerPartNumber="TS-1187A-B-A-B"
+      pinLabels={{ pin1: "A1", pin2: "A2", pin3: "B1", pin4: "B2" }}
       pcbX={-10} pcbY={-16} schX={-10} schY={-7} />
-    <switch name="SW3" footprint="jlcpcb:C318884"
-      manufacturerPartNumber="TS-1187A-B-A-B"
+    <switch name="SW3" footprint="jlcpcb:C318884" manufacturerPartNumber="TS-1187A-B-A-B"
+      pinLabels={{ pin1: "A1", pin2: "A2", pin3: "B1", pin4: "B2" }}
       pcbX={0} pcbY={-16} schX={-6} schY={-7} />
 
-    {/* ══ SWD 调试口 2x5 ═══════════════════════════════════════════════ */}
+    {/* ══ SWD 调试口 ════════════════════════════════════════════════════ */}
     <connector name="J11" footprint="jlcpcb:C42431818"
       manufacturerPartNumber="PZ2.54-2X5P-H25"
       supplierPartNumbers={{ jlcpcb: ["C42431818"] }}
       pcbX={20} pcbY={12} schX={10} schY={-3} />
-  </subcircuit>
+
+    {/* ══ 接线：电源与地 ════════════════════════════════════════════════ */}
+    {/* VDD 有 4 个同名脚，只能按脚号引用 */}
+    <trace name="VDD1" from="U3.pin19" to={NET.V3_3} />
+    <trace name="VDD2" from="U3.pin32" to={NET.V3_3} />
+    <trace name="VDD3" from="U3.pin48" to={NET.V3_3} />
+    <trace name="VDD4" from="U3.pin64" to={NET.V3_3} />
+    <trace name="VSS1" from="U3.pin18" to={NET.GND} />
+    <trace name="VSS2" from="U3.pin31" to={NET.GND} />
+    <trace name="VSS3" from="U3.pin47" to={NET.GND} />
+    <trace name="VSS4" from="U3.pin63" to={NET.GND} />
+    <trace name="VBAT" from="U3.pin1" to={NET.V3_3} />
+    <trace name="VSSA" from="U3.pin12" to={NET.GND} />
+
+    {/* VDDA 经磁珠从 3.3V 隔离 */}
+    <trace name="VDDA_FROM_3V3" from="FB1.IN" to={NET.V3_3} />
+    <trace name="VDDA_TO_MCU" from="FB1.OUT" to={NET.VDDA} />
+    <trace name="VDDA_MCU" from="U3.VDDA" to={NET.VDDA} />
+    <trace name="VDDA_C15" from="C15.pin1" to={NET.VDDA} />
+    <trace name="VDDA_C16" from="C16.pin1" to={NET.VDDA} />
+    <trace name="C15_GND" from="C15.pin2" to={NET.GND} />
+    <trace name="C16_GND" from="C16.pin2" to={NET.GND} />
+
+    {/* VDD 去耦电容 */}
+    <trace name="C10_VDD" from="C10.pin1" to={NET.V3_3} />
+    <trace name="C11_VDD" from="C11.pin1" to={NET.V3_3} />
+    <trace name="C12_VDD" from="C12.pin1" to={NET.V3_3} />
+    <trace name="C13_VDD" from="C13.pin1" to={NET.V3_3} />
+    <trace name="C14_VDD" from="C14.pin1" to={NET.V3_3} />
+    <trace name="C10_GND" from="C10.pin2" to={NET.GND} />
+    <trace name="C11_GND" from="C11.pin2" to={NET.GND} />
+    <trace name="C12_GND" from="C12.pin2" to={NET.GND} />
+    <trace name="C13_GND" from="C13.pin2" to={NET.GND} />
+    <trace name="C14_GND" from="C14.pin2" to={NET.GND} />
+
+    {/* VBAT 去耦 */}
+    <trace name="C17_VBAT" from="C17.pin1" to={NET.V3_3} />
+    <trace name="C17_GND" from="C17.pin2" to={NET.GND} />
+
+    {/* ══ 接线：HSE 晶振 ════════════════════════════════════════════════ */}
+    <trace name="HSE_IN_MCU" from="U3.pin5" to={NET.HSE_IN} />
+    <trace name="HSE_OUT_MCU" from="U3.pin6" to={NET.HSE_OUT} />
+    <trace name="Y1_IN" from="Y1.pin1" to={NET.HSE_IN} />
+    <trace name="Y1_OUT" from="Y1.pin3" to={NET.HSE_OUT} />
+    <trace name="Y1_GND1" from="Y1.pin2" to={NET.GND} />
+    <trace name="Y1_GND2" from="Y1.pin4" to={NET.GND} />
+    <trace name="C18_HSE" from="C18.pin1" to={NET.HSE_IN} />
+    <trace name="C18_GND" from="C18.pin2" to={NET.GND} />
+    <trace name="C19_HSE" from="C19.pin1" to={NET.HSE_OUT} />
+    <trace name="C19_GND" from="C19.pin2" to={NET.GND} />
+
+    {/* ══ 接线：复位 ════════════════════════════════════════════════════ */}
+    <trace name="NRST_MCU" from="U3.NRST" to={NET.NRST} />
+    <trace name="R10_RAIL" from="R10.pin1" to={NET.V3_3} />
+    <trace name="R10_NRST" from="R10.pin2" to={NET.NRST} />
+    <trace name="C20_NRST" from="C20.pin1" to={NET.NRST} />
+    <trace name="C20_GND" from="C20.pin2" to={NET.GND} />
+    {/* SW2 的 pin1=pin2、pin3=pin4 各是一组触点，四个脚都接，不留悬空 */}
+    {/* pin1=pin2 是同一组触点、pin3=pin4 是另一组，所以**每组只接一个脚**即可：
+        两边都接会被 tscircuit 判成"开关两端接到同一网络"（误认为短接）。
+        留空的 pin2/pin4 与已接的脚在器件内部本来就通，电气上无损。 */}
+    <trace name="SW2_A" from="SW2.A1" to={NET.NRST} />
+    <trace name="SW2_B" from="SW2.B1" to={NET.GND} />
+
+    {/* ══ 接线：BOOT0 / BOOT1 ═══════════════════════════════════════════ */}
+    <trace name="BOOT0_MCU" from="U3.BOOT0" to={NET.BOOT0} />
+    <trace name="R11_BOOT0" from="R11.pin1" to={NET.BOOT0} />
+    <trace name="R11_GND" from="R11.pin2" to={NET.GND} />
+    <trace name="SW3_A" from="SW3.A1" to={NET.BOOT0} />
+    <trace name="SW3_B" from="SW3.B1" to={NET.V3_3} />
+    {/* BOOT1 = PB2（脚28），下拉保证从 Flash 启动 */}
+    <trace name="R12_BOOT1" from="R12.pin1" to="U3.pin28" />
+    <trace name="R12_GND" from="R12.pin2" to={NET.GND} />
+
+    {/* ══ 接线：SWD 调试口 ══════════════════════════════════════════════ */}
+    {/* ARM 标准 10 脚：1=VCC 2=SWDIO 3=GND 4=SWCLK 5=GND 6=SWO 7=KEY 8=NC 9=GND 10=NRST */}
+    <trace name="SWDIO_MCU" from="U3.pin46" to={NET.SWDIO} />
+    <trace name="SWCLK_MCU" from="U3.pin49" to={NET.SWCLK} />
+    <trace name="J11_VCC" from="J11.pin1" to={NET.V3_3} />
+    <trace name="J11_SWDIO" from="J11.pin2" to={NET.SWDIO} />
+    <trace name="J11_GND1" from="J11.pin3" to={NET.GND} />
+    <trace name="J11_SWCLK" from="J11.pin4" to={NET.SWCLK} />
+    <trace name="J11_GND2" from="J11.pin5" to={NET.GND} />
+    <trace name="J11_GND3" from="J11.pin9" to={NET.GND} />
+    <trace name="J11_NRST" from="J11.pin10" to={NET.NRST} />
+
+    {/* ══ 接线：三路串口 ════════════════════════════════════════════════ */}
+    <trace name="UART1_TX_MCU" from="U3.pin24" to={NET.UART1_TX} />
+    <trace name="UART1_RX_MCU" from="U3.pin25" to={NET.UART1_RX} />
+    <trace name="UART2_TX_MCU" from="U3.pin16" to={NET.UART2_TX} />
+    <trace name="UART2_RX_MCU" from="U3.pin17" to={NET.UART2_RX} />
+    <trace name="UART3_TX_MCU" from="U3.pin29" to={NET.UART3_TX} />
+    <trace name="UART3_RX_MCU" from="U3.pin30" to={NET.UART3_RX} />
+
+    {/* ══ 接线：三路 I2C ════════════════════════════════════════════════ */}
+    <trace name="I2C1_SCL_MCU" from="U3.pin58" to={NET.I2C1_SCL} />
+    <trace name="I2C1_SDA_MCU" from="U3.pin59" to={NET.I2C1_SDA} />
+    <trace name="I2C2_SCL_MCU" from="U3.pin42" to={NET.I2C2_SCL} />
+    <trace name="I2C2_SDA_MCU" from="U3.pin43" to={NET.I2C2_SDA} />
+    <trace name="I2C3_SCL_MCU" from="U3.pin41" to={NET.I2C3_SCL} />
+    <trace name="I2C3_SDA_MCU" from="U3.pin40" to={NET.I2C3_SDA} />
+
+    {/* ══ 接线：两路 SPI ════════════════════════════════════════════════ */}
+    <trace name="SPI2_SCK_MCU" from="U3.pin34" to={NET.SPI2_SCK} />
+    <trace name="SPI2_MISO_MCU" from="U3.pin35" to={NET.SPI2_MISO} />
+    <trace name="SPI2_MOSI_MCU" from="U3.pin36" to={NET.SPI2_MOSI} />
+    <trace name="SPI2_CS_MCU" from="U3.pin33" to={NET.SPI2_CS} />
+    <trace name="SPI3_SCK_MCU" from="U3.pin51" to={NET.SPI3_SCK} />
+    <trace name="SPI3_MISO_MCU" from="U3.pin52" to={NET.SPI3_MISO} />
+    <trace name="SPI3_MOSI_MCU" from="U3.pin53" to={NET.SPI3_MOSI} />
+    <trace name="SPI3_CS_MCU" from="U3.pin20" to={NET.SPI3_CS} />
+
+    {/* ══ 接线：CAN ═════════════════════════════════════════════════════ */}
+    <trace name="CAN_TX_MCU" from="U3.pin45" to={NET.CAN_TX} />
+    <trace name="CAN_RX_MCU" from="U3.pin44" to={NET.CAN_RX} />
+
+    {/* ══ 接线：六路 PWM（前四路 TIM1 物理相邻，后两路 PA6/PA7 相邻）═══ */}
+    <trace name="PWM1_MCU" from="U3.pin8" to={NET.PWM1} />
+    <trace name="PWM2_MCU" from="U3.pin9" to={NET.PWM2} />
+    <trace name="PWM3_MCU" from="U3.pin10" to={NET.PWM3} />
+    <trace name="PWM4_MCU" from="U3.pin11" to={NET.PWM4} />
+    <trace name="PWM5_MCU" from="U3.pin22" to={NET.PWM5} />
+    <trace name="PWM6_MCU" from="U3.pin23" to={NET.PWM6} />
+
+    {/* ══ 接线：三路 ADC 采样 ═══════════════════════════════════════════ */}
+    <trace name="ADC_12V_MCU" from="U3.pin14" to={NET.ADC_12V} />
+    <trace name="ADC_5V_MCU" from="U3.pin15" to={NET.ADC_5V} />
+    <trace name="ADC_3V3_MCU" from="U3.pin26" to={NET.ADC_3V3} />
+
+    {/* ══ 接线：三路 GPIO 指示灯 ════════════════════════════════════════ */}
+    <trace name="LED1_MCU" from="U3.pin37" to={NET.GPIO_LED1} />
+    <trace name="LED2_MCU" from="U3.pin38" to={NET.GPIO_LED2} />
+    <trace name="LED3_MCU" from="U3.pin39" to={NET.GPIO_LED3} />
+  </group>
 )

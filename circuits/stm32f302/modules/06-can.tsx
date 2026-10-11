@@ -43,7 +43,7 @@ const CAN_PORT_PINS = {
 } as const
 
 export const CanSection = () => (
-  <subcircuit name="CAN" schSheetName={SHEET}>
+  <group name="CAN" schSheetName={SHEET}>
     {/* ══ CAN 收发器 ════════════════════════════════════════════════════ */}
     <chip
       name="U7"
@@ -120,5 +120,5 @@ export const CanSection = () => (
       schX={-10}
       schY={2}
     />
-  </subcircuit>
+  </group>
 )

@@ -35,7 +35,7 @@ const UART_PINS = {
 } as const
 
 export const UartSection = () => (
-  <subcircuit name="UART" schSheetName={SHEET}>
+  <group name="UART" schSheetName={SHEET}>
     {/* ══ J2 — USART1 ═══════════════════════════════════════════════════ */}
     <connector
       name="J2"
@@ -86,5 +86,5 @@ export const UartSection = () => (
       schX={10}
       schY={0}
     />
-  </subcircuit>
+  </group>
 )

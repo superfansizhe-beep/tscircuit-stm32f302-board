@@ -46,7 +46,7 @@ const SHEET: (typeof PAGES)[number]["name"] = "pwm"
 const ROW_PITCH = 2.54
 
 export const PwmSection = () => (
-  <subcircuit name="PWM" schSheetName={SHEET}>
+  <group name="PWM" schSheetName={SHEET}>
     {/* ══ 第 1 排：PWM 信号 ═════════════════════════════════════════════ */}
     <connector
       name="J8"
@@ -108,5 +108,5 @@ export const PwmSection = () => (
       schX={0}
       schY={-7}
     />
-  </subcircuit>
+  </group>
 )

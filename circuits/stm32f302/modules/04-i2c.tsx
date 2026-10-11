@@ -49,7 +49,7 @@ const I2C_PORT_PINS = {
 } as const
 
 export const I2cSection = () => (
-  <subcircuit name="I2C" schSheetName={SHEET}>
+  <group name="I2C" schSheetName={SHEET}>
     {/* ══ 第 1 路：AT24C64D EEPROM ══════════════════════════════════════ */}
     <chip
       name="U4"
@@ -102,10 +102,10 @@ export const I2cSection = () => (
         pin5: "A2",
         pin6: "A1",
         pin7: "A0",
-        pin8: "V+",
+        pin8: "VDD",
       }}
       pinAttributes={{
-        "V+": { requiresPower: true },
+        VDD: { requiresPower: true },
         GND: { requiresGround: true },
         SDA: { mustBeConnected: true },
         SCL: { mustBeConnected: true },
@@ -166,5 +166,5 @@ export const I2cSection = () => (
     <resistor name="R25" resistance="4.7k" footprint="0603"
       supplierPartNumbers={{ jlcpcb: ["C23162"] }}
       pcbX={12} pcbY={-7} schX={11} schY={-8} />
-  </subcircuit>
+  </group>
 )

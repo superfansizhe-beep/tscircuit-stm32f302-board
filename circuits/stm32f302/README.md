@@ -87,6 +87,35 @@ export PATH="$HOME/Desktop/tscircuit/.tooling/bun/bin:$PATH"
 | 多页 SVG 渲染 | resvg 会 panic（`Option::unwrap() on a None value`） | **单页走 resvg，多页走 macOS `qlmanage`** |
 | 该型号外设 | **没有 SPI1 / TIM3 / TIM4 / GPIOE** | 见 `PINMAP.md` §3 |
 
+### ⚠️ 最重要的一条：模块必须用 `<group>`，不能用 `<subcircuit>`
+
+**实测结论：`<subcircuit>` 会把 `net.X` 的命名空间隔离在子电路内部。**
+
+| 写法 | 结果 |
+|------|------|
+| 两个 `<subcircuit>` 各自连 `net.GND` | **2 个互不相连的 GND 网络** + 警告 |
+| 再加 board 层 `<net name="GND" />` | **更糟：3 个** |
+| 两个 `<group>` 各自连 `net.GND` | ✅ **1 个 GND 网络** |
+| 不用分组（同层） | ✅ 1 个网络 |
+
+这本身是合理设计 —— `<subcircuit>` 的语义是**可复用 IP 块**，网络命名空间隔离是特性。
+但我们的场景是「**一块板分成多页组织**」，跨页要靠同名网络自动连通，
+所以必须用 `<group>`。
+
+`<group>` 同时满足分页与布局需求（实测）：
+
+- `schSheetName` 挂在 `<group>` 上 → 子元件正确落到指定页
+- `pcbX/pcbY` 挂在 `<group>` 上 → 子元件整体偏移
+
+> 另一个坑：网络名**不能与位号重名**。指示灯页的元件位号是 `LED1/2/3`，
+> 若网络也叫 `LED1/2/3`，会报 `Multiple immediate children found with name "LED1"`。
+> 所以网络改名为 `net.GPIO_LED1/2/3`。
+
+### 跨页连接是怎么成立的
+
+一条网络的两端分别写在两个模块里，两边都引用 `nets.ts` 里的同一个常量，即自动连通 ——
+不需要任何显式的"跨页连线"语句。原理图上的**网络标号是自动生成的**，无需手写 `<netlabel>`。
+
 ### 原理图坐标（实测标定）
 
 从导出 SVG 的 `data-real-to-screen-transform` 矩阵反推出来的：

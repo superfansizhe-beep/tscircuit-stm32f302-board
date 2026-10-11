@@ -17,12 +17,12 @@
  *   多页堆叠图 → resvg 会 panic，只能走 macOS 的 qlmanage
  */
 import { PAGES } from "./pages"
-import { LedSection } from "./modules/09-led"
+import { PowerSection } from "./modules/01-power"
 
-// 当前预览：指示灯页
-const SHEET_NAME: (typeof PAGES)[number]["name"] = "led"
-const SHEET_DISPLAY_NAME = "指示灯"
-const PREVIEW = <LedSection />
+// 当前预览：电源页
+const SHEET_NAME: (typeof PAGES)[number]["name"] = "power"
+const SHEET_DISPLAY_NAME = "电源"
+const PREVIEW = <PowerSection />
 
 export default () => (
   <board width="80mm" height="80mm" layers={2}>
