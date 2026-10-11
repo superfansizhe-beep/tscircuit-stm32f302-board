@@ -32,6 +32,7 @@ EXPECT = {
     ),
     "UART": set("J2 J3 J4".split()),
     "I2C": set("U4 U5 J5 R20 R21 R22 R23 R24 R25 C30 C31".split()),
+    "SPI": set("U6 J6 J12 R26 R27 C32 C33".split()),
 }
 
 OK_TYPES = (

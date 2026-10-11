@@ -17,12 +17,12 @@
  *   多页堆叠图 → resvg 会 panic，只能走 macOS 的 qlmanage
  */
 import { PAGES } from "./pages"
-import { I2cSection } from "./modules/04-i2c"
+import { SpiSection } from "./modules/05-spi"
 
-// 当前预览：I2C 页
-const SHEET_NAME: (typeof PAGES)[number]["name"] = "i2c"
-const SHEET_DISPLAY_NAME = "I2C"
-const PREVIEW = <I2cSection />
+// 当前预览：SPI 页
+const SHEET_NAME: (typeof PAGES)[number]["name"] = "spi"
+const SHEET_DISPLAY_NAME = "SPI"
+const PREVIEW = <SpiSection />
 
 export default () => (
   <board width="80mm" height="80mm" layers={2}>
