@@ -34,6 +34,15 @@ EXPECT = {
     "I2C": set("U4 U5 J5 R20 R21 R22 R23 R24 R25 C30 C31".split()),
     "SPI": set("U6 J6 J12 R26 R27 C32 C33".split()),
     "CAN": set("U7 J7 R28 R29 C34".split()),
+    "PWM": set("J8 J9 J10".split()),
+}
+
+# ── 具名豁免：庭院重叠，但是**故意设计**的 ──────────────────────────────
+# 每个条目都要写清楚为什么可以放行。不加理由的豁免等于放松标准。
+COURTYARD_EXCEPTIONS = {
+    frozenset({"J8", "J9"}): "PWM 舵机轨：三排必须 2.54mm 紧贴，"
+    "排针庭院 3.04mm 故重叠 0.50mm（本体外各 0.25mm 通用余量），物理无害",
+    frozenset({"J9", "J10"}): "同上",
 }
 
 OK_TYPES = (
@@ -126,21 +135,26 @@ def main() -> int:
     print("③ 模块【内部】几何冲突（跨模块重叠属预期，全局布局时解决）")
     print("=" * 68)
     for t in ("pcb_footprint_overlap_error", "pcb_courtyard_overlap_error"):
-        inner, cross = [], 0
+        inner, cross, excused = [], 0, []
         for e in els:
             if e.get("type") != t:
                 continue
             ids = e.get("pcb_component_ids") or []
             if len(ids) == 2:
                 a, b = ids
-                if mod(a) == mod(b):
-                    inner.append((nm(a), nm(b), mod(a)))
-                else:
+                if mod(a) != mod(b):
                     cross += 1
+                elif frozenset({nm(a), nm(b)}) in COURTYARD_EXCEPTIONS:
+                    excused.append((nm(a), nm(b)))
+                else:
+                    inner.append((nm(a), nm(b), mod(a)))
         flag = "✅" if not inner else "❌"
         print(f"  {flag} {t}: 模块内 {len(inner)}   模块间 {cross}")
         for a, b, m in inner:
             print(f"        {a} + {b}  ({m})")
+        for a, b in excused:
+            why = COURTYARD_EXCEPTIONS[frozenset({a, b})]
+            print(f"        ℹ️  已豁免 {a} + {b}: {why[:70]}")
         fail += len(inner)
 
     print()

@@ -17,12 +17,12 @@
  *   多页堆叠图 → resvg 会 panic，只能走 macOS 的 qlmanage
  */
 import { PAGES } from "./pages"
-import { CanSection } from "./modules/06-can"
+import { PwmSection } from "./modules/07-pwm"
 
-// 当前预览：CAN 页
-const SHEET_NAME: (typeof PAGES)[number]["name"] = "can"
-const SHEET_DISPLAY_NAME = "CAN"
-const PREVIEW = <CanSection />
+// 当前预览：PWM 页
+const SHEET_NAME: (typeof PAGES)[number]["name"] = "pwm"
+const SHEET_DISPLAY_NAME = "PWM"
+const PREVIEW = <PwmSection />
 
 export default () => (
   <board width="80mm" height="80mm" layers={2}>
