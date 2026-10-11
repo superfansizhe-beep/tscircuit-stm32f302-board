@@ -17,12 +17,12 @@
  *   多页堆叠图 → resvg 会 panic，只能走 macOS 的 qlmanage
  */
 import { PAGES } from "./pages"
-import { SpiSection } from "./modules/05-spi"
+import { CanSection } from "./modules/06-can"
 
-// 当前预览：SPI 页
-const SHEET_NAME: (typeof PAGES)[number]["name"] = "spi"
-const SHEET_DISPLAY_NAME = "SPI"
-const PREVIEW = <SpiSection />
+// 当前预览：CAN 页
+const SHEET_NAME: (typeof PAGES)[number]["name"] = "can"
+const SHEET_DISPLAY_NAME = "CAN"
+const PREVIEW = <CanSection />
 
 export default () => (
   <board width="80mm" height="80mm" layers={2}>
