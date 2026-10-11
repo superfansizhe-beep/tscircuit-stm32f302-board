@@ -35,6 +35,8 @@ EXPECT = {
     "SPI": set("U6 J6 J12 R26 R27 C32 C33".split()),
     "CAN": set("U7 J7 R28 R29 C34".split()),
     "PWM": set("J8 J9 J10".split()),
+    "ADC": set("R30 R31 R32 R33 R34 R35 C35 C36 C37".split()),
+    "LED": set("LED1 LED2 LED3 R36 R37 R38".split()),
 }
 
 # ── 具名豁免：庭院重叠，但是**故意设计**的 ──────────────────────────────
@@ -86,10 +88,19 @@ def main() -> int:
 
     src = {e["source_component_id"]: e.get("name") for e in els if e.get("type") == "source_component"}
     pcb = {e["pcb_component_id"]: e for e in els if e.get("type") == "pcb_component"}
-    grp = {e.get("pcb_group_id"): e.get("name") for e in els if e.get("type") == "pcb_group"}
+
+    # 模块归属必须按 subcircuit_id 判，不能取最内层 pcb_group 的名字：
+    # 模块内部再用 <group> 包一层时（如指示灯页的三路），会生成
+    # "unnamed_group1" 这类子分组，但它们与所属子电路**共享同一个 subcircuit_id**。
+    sc_name = {
+        e.get("subcircuit_id"): e.get("name")
+        for e in els
+        if e.get("type") == "pcb_group" and e.get("is_subcircuit")
+    }
 
     def mod(cid):
-        return grp.get(pcb.get(cid, {}).get("pcb_group_id"), "?")
+        sc = pcb.get(cid, {}).get("subcircuit_id")
+        return sc_name.get(sc, sc or "?")
 
     def nm(cid):
         return src.get(pcb.get(cid, {}).get("source_component_id"), "?")
