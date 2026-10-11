@@ -77,9 +77,39 @@ export PATH="$HOME/Desktop/tscircuit/.tooling/bun/bin:$PATH"
 | 坑 | 现象 | 规避 |
 |----|------|------|
 | **空 `<subcircuit>`** | 单个还能构建，**多个同时存在必炸**：`TypeError: undefined is not an object (evaluating 'component.componentId')` | 未实现的模块返回 `null`，实现后再换成 `<subcircuit>` |
+| **`<crystal>` 缺 `loadCapacitance`** | 元件**静默消失**（构建仍报成功），只留一条 `source_failed_to_create_component_error` | 必填 `loadCapacitance`；4 焊盘 3225 再加 `pinVariant="four_pin"` |
+| **`<led>` 用 jlcpcb 封装** | 原理图不画符号，只印红字 `Could not match ports for symbol led_right` | 必须显式写 `pinLabels={{pin1:"anode",pin2:"cathode"}}` |
+| **`<chip>` + `supplierPartNumbers`** | 报"封装不符"假阳性（同 C 编号自比对，IoU 0.68） | 对开关这类用 `<switch>` 且不写 supplier；C 编号留在注释与 BOM.md |
 | `<schematicsection>` | 官方文档主推它做分区，**该版本不支持** | 只用 `<schematicsheet>` |
-| 多页导出 | 不是多个文件，是**一张 `tscircuit-stacked-schematic`**，所有页垂直堆叠 | 截图时按需裁剪，或用 A4 页高 751px 定位 |
+| **原理图坐标区** | 不是 A4 的 297×210，实际只有约 **31×21.7 单位**；超界报 `schematic_element_outside_sheet_warning` | 见下方「原理图坐标」 |
+| 多页导出 | 不是多个文件，是**一张 `tscircuit-stacked-schematic`**，所有页垂直堆叠 | 单页预览用 `_preview.tsx`；渲染见下 |
+| `schematic-pdf` 导出 | 本机 Rust panic（`failed to initiate panic, error 5`） | 改用 `schematic-svg` |
+| 多页 SVG 渲染 | resvg 会 panic（`Option::unwrap() on a None value`） | **单页走 resvg，多页走 macOS `qlmanage`** |
 | 该型号外设 | **没有 SPI1 / TIM3 / TIM4 / GPIOE** | 见 `PINMAP.md` §3 |
+
+### 原理图坐标（实测标定）
+
+从导出 SVG 的 `data-real-to-screen-transform` 矩阵反推出来的：
+
+```
+屏幕 x = 25.2778 × 真实 x + 600        （1 单位 ≈ 9.2mm）
+屏幕 y = −25.2778 × 真实 y + 300       （y 轴向上）
+A4 内框 → 真实坐标 x ∈ [−15.54, +15.54]  y ∈ [−10.83, +10.83]
+```
+
+**摆到 ±120 这种"像 mm"的数上，整页只会剩一个空图框。** 每个模块的 `schX/schY` 都要落在这个窄区间里。
+
+### 封装庭院尺寸（实测，用来排间距）
+
+| 封装 | 庭院 |
+|------|------|
+| 0603 阻容 | 2.96 × 1.46 mm |
+| 0805 阻容 | 3.36 × 1.90 mm |
+| LQFP-64 (U3) | 13.99 × 13.99 mm |
+| TS-1187A 按键 | 7.51 × 5.71 mm |
+| 2×5 SWD 排针 | 13.23 × 5.58 mm |
+
+**经验值：行内中心距 ≥4mm、行距 ≥7mm**，实测可让重叠错误归零。
 
 ---
 
