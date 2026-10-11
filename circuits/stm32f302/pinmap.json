@@ -1,0 +1,871 @@
+[
+ {
+  "pin": 1,
+  "port": "VBAT",
+  "function": "VBAT 备份电源",
+  "af": "—",
+  "connects_to": "VBAT 接 3.3V（或 100nF 到地）",
+  "official_signals": []
+ },
+ {
+  "pin": 2,
+  "port": "PC13",
+  "function": "留空",
+  "af": "RTC/WKUP",
+  "connects_to": "不用",
+  "official_signals": [
+   "RTC_OUT_ALARM",
+   "RTC_OUT_CALIB",
+   "RTC_TAMP1",
+   "RTC_TS",
+   "SYS_WKUP2",
+   "TIM1_CH1N",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 3,
+  "port": "PC14",
+  "function": "留空",
+  "af": "OSC32_IN",
+  "connects_to": "不装 LSE，留空",
+  "official_signals": [
+   "RCC_OSC32_IN",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 4,
+  "port": "PC15",
+  "function": "留空",
+  "af": "OSC32_OUT",
+  "connects_to": "不装 LSE，留空",
+  "official_signals": [
+   "ADC1_EXTI15",
+   "RCC_OSC32_OUT",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 5,
+  "port": "PF0",
+  "function": "HSE 晶振输入",
+  "af": "RCC_OSC_IN",
+  "connects_to": "8MHz 3225 晶振",
+  "official_signals": [
+   "I2C2_SDA",
+   "I2S2_WS",
+   "RCC_OSC_IN",
+   "SPI2_NSS",
+   "TIM1_CH3N",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 6,
+  "port": "PF1",
+  "function": "HSE 晶振输出",
+  "af": "RCC_OSC_OUT",
+  "connects_to": "8MHz 3225 晶振",
+  "official_signals": [
+   "I2C2_SCL",
+   "I2S2_CK",
+   "RCC_OSC_OUT",
+   "SPI2_SCK",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 7,
+  "port": "NRST",
+  "function": "复位",
+  "af": "—",
+  "connects_to": "RESET 按键 + 上拉 + 100nF",
+  "official_signals": []
+ },
+ {
+  "pin": 8,
+  "port": "PC0",
+  "function": "PWM1",
+  "af": "TIM1_CH1",
+  "connects_to": "PWM 排针 第1排 脚1",
+  "official_signals": [
+   "ADC1_IN6",
+   "TIM1_CH1",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 9,
+  "port": "PC1",
+  "function": "PWM2",
+  "af": "TIM1_CH2",
+  "connects_to": "PWM 排针 第1排 脚2",
+  "official_signals": [
+   "ADC1_IN7",
+   "TIM1_CH2",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 10,
+  "port": "PC2",
+  "function": "PWM3",
+  "af": "TIM1_CH3",
+  "connects_to": "PWM 排针 第1排 脚3",
+  "official_signals": [
+   "ADC1_IN8",
+   "TIM1_CH3",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 11,
+  "port": "PC3",
+  "function": "PWM4",
+  "af": "TIM1_CH4",
+  "connects_to": "PWM 排针 第1排 脚4",
+  "official_signals": [
+   "ADC1_IN9",
+   "TIM1_BKIN2",
+   "TIM1_CH4",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 12,
+  "port": "VSSA",
+  "function": "模拟地",
+  "af": "—",
+  "connects_to": "接 GND",
+  "official_signals": []
+ },
+ {
+  "pin": 13,
+  "port": "VDDA",
+  "function": "模拟电源",
+  "af": "—",
+  "connects_to": "VDDA 滤波 1µF + 10nF",
+  "official_signals": []
+ },
+ {
+  "pin": 14,
+  "port": "PA0",
+  "function": "ADC 采 12V",
+  "af": "ADC1_IN1",
+  "connects_to": "12V 分压网络",
+  "official_signals": [
+   "ADC1_IN1",
+   "RTC_TAMP2",
+   "SYS_WKUP1",
+   "TIM2_CH1",
+   "TIM2_ETR",
+   "TSC_G1_IO1",
+   "USART2_CTS",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 15,
+  "port": "PA1",
+  "function": "ADC 采 5V",
+  "af": "ADC1_IN2",
+  "connects_to": "5V 分压网络",
+  "official_signals": [
+   "ADC1_IN2",
+   "RTC_REFIN",
+   "TIM15_CH1N",
+   "TIM2_CH2",
+   "TSC_G1_IO2",
+   "USART2_DE",
+   "USART2_RTS",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 16,
+  "port": "PA2",
+  "function": "USART2_TX",
+  "af": "USART2_TX",
+  "connects_to": "PH2.0 UART2",
+  "official_signals": [
+   "ADC1_IN3",
+   "COMP2_INM",
+   "COMP2_OUT",
+   "TIM15_CH1",
+   "TIM2_CH3",
+   "TSC_G1_IO3",
+   "USART2_TX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 17,
+  "port": "PA3",
+  "function": "USART2_RX",
+  "af": "USART2_RX",
+  "connects_to": "PH2.0 UART2",
+  "official_signals": [
+   "ADC1_IN4",
+   "TIM15_CH2",
+   "TIM2_CH4",
+   "TSC_G1_IO4",
+   "USART2_RX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 18,
+  "port": "VSS",
+  "function": "数字地",
+  "af": "—",
+  "connects_to": "接 GND",
+  "official_signals": []
+ },
+ {
+  "pin": 19,
+  "port": "VDD",
+  "function": "数字电源",
+  "af": "—",
+  "connects_to": "100nF 去耦",
+  "official_signals": []
+ },
+ {
+  "pin": 20,
+  "port": "PA4",
+  "function": "SPI3_NSS",
+  "af": "SPI3_NSS",
+  "connects_to": "PH2.0 SPI-B（片选）",
+  "official_signals": [
+   "ADC1_IN5",
+   "COMP2_INM",
+   "COMP4_INM",
+   "COMP6_INM",
+   "DAC_OUT1",
+   "I2S3_WS",
+   "SPI3_NSS",
+   "TSC_G2_IO1",
+   "USART2_CK",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 21,
+  "port": "PA5",
+  "function": "留空",
+  "af": "TIM2_CH1",
+  "connects_to": "不用",
+  "official_signals": [
+   "OPAMP2_VINM",
+   "OPAMP2_VINM_SEC",
+   "TIM2_CH1",
+   "TIM2_ETR",
+   "TSC_G2_IO2",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 22,
+  "port": "PA6",
+  "function": "PWM5",
+  "af": "TIM16_CH1",
+  "connects_to": "PWM 排针 第1排 脚5",
+  "official_signals": [
+   "ADC1_IN10",
+   "OPAMP2_VOUT",
+   "TIM16_CH1",
+   "TIM1_BKIN",
+   "TSC_G2_IO3",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 23,
+  "port": "PA7",
+  "function": "PWM6",
+  "af": "TIM17_CH1",
+  "connects_to": "PWM 排针 第1排 脚6",
+  "official_signals": [
+   "ADC1_IN15",
+   "COMP2_INP",
+   "OPAMP2_VINP",
+   "OPAMP2_VINP_SEC",
+   "TIM17_CH1",
+   "TIM1_CH1N",
+   "TSC_G2_IO4",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 24,
+  "port": "PC4",
+  "function": "USART1_TX",
+  "af": "USART1_TX",
+  "connects_to": "PH2.0 UART1",
+  "official_signals": [
+   "TIM1_ETR",
+   "USART1_TX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 25,
+  "port": "PC5",
+  "function": "USART1_RX",
+  "af": "USART1_RX",
+  "connects_to": "PH2.0 UART1",
+  "official_signals": [
+   "OPAMP2_VINM",
+   "OPAMP2_VINM_SEC",
+   "TIM15_BKIN",
+   "TSC_G3_IO1",
+   "USART1_RX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 26,
+  "port": "PB0",
+  "function": "ADC 采 3.3V",
+  "af": "ADC1_IN11",
+  "connects_to": "3.3V 分压网络",
+  "official_signals": [
+   "ADC1_IN11",
+   "COMP4_INP",
+   "OPAMP2_VINP",
+   "OPAMP2_VINP_SEC",
+   "TIM1_CH2N",
+   "TSC_G3_IO2",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 27,
+  "port": "PB1",
+  "function": "留空",
+  "af": "TIM1_CH3N",
+  "connects_to": "不用",
+  "official_signals": [
+   "ADC1_IN12",
+   "COMP4_OUT",
+   "TIM1_CH3N",
+   "TSC_G3_IO3",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 28,
+  "port": "PB2",
+  "function": "BOOT1",
+  "af": "BOOT1",
+  "connects_to": "10k 下拉到 GND",
+  "official_signals": [
+   "COMP4_INM",
+   "TSC_G3_IO4",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 29,
+  "port": "PB10",
+  "function": "USART3_TX",
+  "af": "USART3_TX",
+  "connects_to": "PH2.0 UART3",
+  "official_signals": [
+   "TIM2_CH3",
+   "TSC_SYNC",
+   "USART3_TX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 30,
+  "port": "PB11",
+  "function": "USART3_RX",
+  "af": "USART3_RX",
+  "connects_to": "PH2.0 UART3",
+  "official_signals": [
+   "ADC1_EXTI11",
+   "ADC1_IN14",
+   "COMP6_INP",
+   "TIM2_CH4",
+   "TSC_G6_IO1",
+   "USART3_RX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 31,
+  "port": "VSS",
+  "function": "数字地",
+  "af": "—",
+  "connects_to": "接 GND",
+  "official_signals": []
+ },
+ {
+  "pin": 32,
+  "port": "VDD",
+  "function": "数字电源",
+  "af": "—",
+  "connects_to": "100nF 去耦",
+  "official_signals": []
+ },
+ {
+  "pin": 33,
+  "port": "PB12",
+  "function": "SPI2_NSS",
+  "af": "SPI2_NSS",
+  "connects_to": "MCP23S17 CS",
+  "official_signals": [
+   "I2C2_SMBA",
+   "I2S2_WS",
+   "SPI2_NSS",
+   "TIM1_BKIN",
+   "TSC_G6_IO2",
+   "USART3_CK",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 34,
+  "port": "PB13",
+  "function": "SPI2_SCK",
+  "af": "SPI2_SCK",
+  "connects_to": "MCP23S17 SCK",
+  "official_signals": [
+   "ADC1_IN13",
+   "I2S2_CK",
+   "SPI2_SCK",
+   "TIM1_CH1N",
+   "TSC_G6_IO3",
+   "USART3_CTS",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 35,
+  "port": "PB14",
+  "function": "SPI2_MISO",
+  "af": "SPI2_MISO",
+  "connects_to": "MCP23S17 SO",
+  "official_signals": [
+   "I2S2_ext_SD",
+   "OPAMP2_VINP",
+   "OPAMP2_VINP_SEC",
+   "SPI2_MISO",
+   "TIM15_CH1",
+   "TIM1_CH2N",
+   "TSC_G6_IO4",
+   "USART3_DE",
+   "USART3_RTS",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 36,
+  "port": "PB15",
+  "function": "SPI2_MOSI",
+  "af": "SPI2_MOSI",
+  "connects_to": "MCP23S17 SI",
+  "official_signals": [
+   "ADC1_EXTI15",
+   "COMP6_INM",
+   "I2S2_SD",
+   "RTC_REFIN",
+   "SPI2_MOSI",
+   "TIM15_CH1N",
+   "TIM15_CH2",
+   "TIM1_CH3N",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 37,
+  "port": "PC6",
+  "function": "LED1",
+  "af": "GPIO",
+  "connects_to": "LED + 限流电阻",
+  "official_signals": [
+   "COMP6_OUT",
+   "I2S2_MCK",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 38,
+  "port": "PC7",
+  "function": "LED2",
+  "af": "GPIO",
+  "connects_to": "LED + 限流电阻",
+  "official_signals": [
+   "I2S3_MCK",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 39,
+  "port": "PC8",
+  "function": "LED3",
+  "af": "GPIO",
+  "connects_to": "LED + 限流电阻",
+  "official_signals": [
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 40,
+  "port": "PC9",
+  "function": "I2C3_SDA",
+  "af": "I2C3_SDA",
+  "connects_to": "PH2.0 I2C",
+  "official_signals": [
+   "DAC_EXTI9",
+   "I2C3_SDA",
+   "I2S_CKIN",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 41,
+  "port": "PA8",
+  "function": "I2C3_SCL",
+  "af": "I2C3_SCL",
+  "connects_to": "PH2.0 I2C",
+  "official_signals": [
+   "I2C2_SMBA",
+   "I2C3_SCL",
+   "I2S2_MCK",
+   "RCC_MCO",
+   "TIM1_CH1",
+   "USART1_CK",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 42,
+  "port": "PA9",
+  "function": "I2C2_SCL",
+  "af": "I2C2_SCL",
+  "connects_to": "TMP1075 SCL",
+  "official_signals": [
+   "DAC_EXTI9",
+   "I2C2_SCL",
+   "I2C3_SMBA",
+   "I2S3_MCK",
+   "TIM15_BKIN",
+   "TIM1_CH2",
+   "TIM2_CH3",
+   "TSC_G4_IO1",
+   "USART1_TX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 43,
+  "port": "PA10",
+  "function": "I2C2_SDA",
+  "af": "I2C2_SDA",
+  "connects_to": "TMP1075 SDA",
+  "official_signals": [
+   "COMP6_OUT",
+   "I2C2_SDA",
+   "I2S2_ext_SD",
+   "SPI2_MISO",
+   "TIM17_BKIN",
+   "TIM1_CH3",
+   "TIM2_CH4",
+   "TSC_G4_IO2",
+   "USART1_RX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 44,
+  "port": "PA11",
+  "function": "CAN_RX",
+  "af": "CAN_RX",
+  "connects_to": "TCAN332 RXD",
+  "official_signals": [
+   "ADC1_EXTI11",
+   "CAN_RX",
+   "I2S2_SD",
+   "SPI2_MOSI",
+   "TIM1_BKIN2",
+   "TIM1_CH1N",
+   "TIM1_CH4",
+   "USART1_CTS",
+   "USB_DM",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 45,
+  "port": "PA12",
+  "function": "CAN_TX",
+  "af": "CAN_TX",
+  "connects_to": "TCAN332 TXD",
+  "official_signals": [
+   "CAN_TX",
+   "COMP2_OUT",
+   "I2S_CKIN",
+   "TIM16_CH1",
+   "TIM1_CH2N",
+   "TIM1_ETR",
+   "USART1_DE",
+   "USART1_RTS",
+   "USB_DP",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 46,
+  "port": "PA13",
+  "function": "SWDIO",
+  "af": "SYS_JTMS-SWDIO",
+  "connects_to": "SWD 排针",
+  "official_signals": [
+   "IR_OUT",
+   "SYS_JTMS-SWDIO",
+   "TIM16_CH1N",
+   "TSC_G4_IO3",
+   "USART3_CTS",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 47,
+  "port": "VSS",
+  "function": "数字地",
+  "af": "—",
+  "connects_to": "接 GND",
+  "official_signals": []
+ },
+ {
+  "pin": 48,
+  "port": "VDD",
+  "function": "数字电源",
+  "af": "—",
+  "connects_to": "100nF 去耦",
+  "official_signals": []
+ },
+ {
+  "pin": 49,
+  "port": "PA14",
+  "function": "SWCLK",
+  "af": "SYS_JTCK-SWCLK",
+  "connects_to": "SWD 排针",
+  "official_signals": [
+   "I2C1_SDA",
+   "SYS_JTCK-SWCLK",
+   "TIM1_BKIN",
+   "TSC_G4_IO4",
+   "USART2_TX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 50,
+  "port": "PA15",
+  "function": "留空",
+  "af": "JTDI",
+  "connects_to": "不用（SWD 模式下释放）",
+  "official_signals": [
+   "ADC1_EXTI15",
+   "I2C1_SCL",
+   "I2S3_WS",
+   "SPI3_NSS",
+   "SYS_JTDI",
+   "TIM1_BKIN",
+   "TIM2_CH1",
+   "TIM2_ETR",
+   "TSC_SYNC",
+   "USART2_RX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 51,
+  "port": "PC10",
+  "function": "SPI3_SCK",
+  "af": "SPI3_SCK",
+  "connects_to": "PH2.0 SPI-B",
+  "official_signals": [
+   "I2S3_CK",
+   "SPI3_SCK",
+   "USART3_TX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 52,
+  "port": "PC11",
+  "function": "SPI3_MISO",
+  "af": "SPI3_MISO",
+  "connects_to": "PH2.0 SPI-B",
+  "official_signals": [
+   "ADC1_EXTI11",
+   "I2S3_ext_SD",
+   "SPI3_MISO",
+   "USART3_RX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 53,
+  "port": "PC12",
+  "function": "SPI3_MOSI",
+  "af": "SPI3_MOSI",
+  "connects_to": "PH2.0 SPI-B",
+  "official_signals": [
+   "I2S3_SD",
+   "SPI3_MOSI",
+   "USART3_CK",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 54,
+  "port": "PD2",
+  "function": "留空",
+  "af": "—",
+  "connects_to": "不用",
+  "official_signals": [
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 55,
+  "port": "PB3",
+  "function": "留空",
+  "af": "JTDO",
+  "connects_to": "不用",
+  "official_signals": [
+   "I2S3_CK",
+   "SPI3_SCK",
+   "SYS_JTDO-TRACESWO",
+   "TIM2_CH2",
+   "TSC_G5_IO1",
+   "USART2_TX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 56,
+  "port": "PB4",
+  "function": "留空",
+  "af": "NJTRST",
+  "connects_to": "不用",
+  "official_signals": [
+   "I2S3_ext_SD",
+   "SPI3_MISO",
+   "SYS_NJTRST",
+   "TIM16_CH1",
+   "TIM17_BKIN",
+   "TSC_G5_IO2",
+   "USART2_RX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 57,
+  "port": "PB5",
+  "function": "留空",
+  "af": "I2C1_SMBA",
+  "connects_to": "不用",
+  "official_signals": [
+   "I2C1_SMBA",
+   "I2C3_SDA",
+   "I2S3_SD",
+   "SPI3_MOSI",
+   "TIM16_BKIN",
+   "TIM17_CH1",
+   "USART2_CK",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 58,
+  "port": "PB6",
+  "function": "I2C1_SCL",
+  "af": "I2C1_SCL",
+  "connects_to": "AT24C64D SCL",
+  "official_signals": [
+   "I2C1_SCL",
+   "TIM16_CH1N",
+   "TSC_G5_IO3",
+   "USART1_TX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 59,
+  "port": "PB7",
+  "function": "I2C1_SDA",
+  "af": "I2C1_SDA",
+  "connects_to": "AT24C64D SDA",
+  "official_signals": [
+   "I2C1_SDA",
+   "TIM17_CH1N",
+   "TSC_G5_IO4",
+   "USART1_RX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 60,
+  "port": "BOOT0",
+  "function": "BOOT0",
+  "af": "—",
+  "connects_to": "10k 下拉 + BOOT 按键到 3.3V",
+  "official_signals": []
+ },
+ {
+  "pin": 61,
+  "port": "PB8",
+  "function": "留空",
+  "af": "CAN_RX(alt)",
+  "connects_to": "不用",
+  "official_signals": [
+   "CAN_RX",
+   "I2C1_SCL",
+   "TIM16_CH1",
+   "TIM1_BKIN",
+   "TSC_SYNC",
+   "USART3_RX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 62,
+  "port": "PB9",
+  "function": "留空",
+  "af": "CAN_TX(alt)",
+  "connects_to": "不用",
+  "official_signals": [
+   "CAN_TX",
+   "COMP2_OUT",
+   "DAC_EXTI9",
+   "I2C1_SDA",
+   "IR_OUT",
+   "TIM17_CH1",
+   "USART3_TX",
+   "GPIO"
+  ]
+ },
+ {
+  "pin": 63,
+  "port": "VSS",
+  "function": "数字地",
+  "af": "—",
+  "connects_to": "接 GND",
+  "official_signals": []
+ },
+ {
+  "pin": 64,
+  "port": "VDD",
+  "function": "数字电源",
+  "af": "—",
+  "connects_to": "100nF 去耦",
+  "official_signals": []
+ }
+]
