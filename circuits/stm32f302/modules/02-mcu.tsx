@@ -130,6 +130,7 @@ export const McuSection = (props: { pcbX?: number; pcbY?: number }) => (
         而 PF0/PF1 在 U3 的**底边**。原来把晶振放在顶边外，绕出 14.66mm，
         直接导致 autorouter 拒绝布线。挪到底边后约 8.5mm。 */}
     <crystal name="Y1" frequency="8MHz" loadCapacitance="10pF" pinVariant="four_pin"
+      maxTraceLength="20mm"
       footprint="jlcpcb:C400090" manufacturerPartNumber="TAXM8M4RDBCCT2T"
       supplierPartNumbers={{ jlcpcb: ["C400090"] }}
       pcbX={-2.5} pcbY={-9.5} schX={-6} schY={7} />
