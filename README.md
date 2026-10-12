@@ -1,3 +1,77 @@
+# STM32F302R8T6 考核板 —— 用 TypeScript 画电路
+
+**这是一块完整的 STM32 开发板的全部设计源文件**：原理图、PCB、BOM、
+交付产物，以及把 tscircuit（电路即代码）跑起来的钉死工具链。
+
+| | |
+|---|---|
+| 板子 | **80 × 80 mm，4 层** |
+| 主控 | STM32F302R8T6（LQFP-64） |
+| 元件 | 84 个（261 SMT 焊盘 + 76 通孔） |
+| 原理图 | **9 页**（电源 / 最小系统 / 串口 / I2C / SPI / CAN / PWM / ADC / 指示灯） |
+| 走线 | 234 条、197 个过孔 |
+| 铜皮 | 内层1 + 底层 GND 平面 |
+
+## 这块板做什么
+
+一块自制的 STM32F302 开发板，把常用外设一次性做全：
+
+- **电源**：XT30 输入 → 拨动开关 → RY8411 降压到 5V → TLV75733 LDO 到 3.3V，三颗电源指示灯
+- **最小系统**：8MHz HSE 晶振、复位/启动按键、SWD 调试口、全套去耦
+- **外设**：3 路串口（PH2.0）、3 路 I2C（EEPROM + 温度传感器 + 引出）、
+  2 路 SPI（MCP23S17 扩 16 路 GPIO + 引出）、1 路 CAN、
+  6 路 PWM 舵机轨、3 路 ADC 电源电压采样、3 路 GPIO 指示灯
+
+## 交付产物在哪
+
+[`out/stm32f302/deliverables/`](out/stm32f302/deliverables/) ——
+**含 `.epro2` 转换步骤与已知问题，要交作业先看这里的说明。**
+
+| 目录 | 内容 |
+|------|------|
+| `01-原理图/` | 九页 PDF + 分页 PNG + 矢量 SVG |
+| `02-PCB/` | 正反面/全板图 + Gerber（4 层，含内层与钻孔） |
+| `03-导入EasyEDA/` | Altium 工程（转 `.epro2` 用）+ KiCad PCB |
+| `04-制造资料/` | BOM.csv（37 种料号）+ 网表 |
+| `05-3D/` | 整板 STEP 模型 |
+
+![PCB 全板](out/stm32f302/images/pcb-full.png)
+
+![电源页原理图](out/stm32f302/images/sch-power.png)
+
+## 为什么"电路是代码"
+
+整块板用 TSX 描述（`<chip>` `<resistor>` `<trace>` 这些标签），
+而不是画在 EDA 软件里。好处是**可复跑、可 diff、可程序化校验**：
+
+```bash
+export PATH="$HOME/Desktop/tscircuit/.tooling/bun/bin:$PATH"
+./tsci-run export circuits/stm32f302/main.tsx -f circuit-json -o ../../out/stm32f302/main.json
+
+python3 scripts/check-modules.py   # 元件数 / 丢件 / 几何重叠 / 越出板边
+python3 scripts/erc.py             # 八项电气规则（短路 / 重复网络 / 悬空脚 …）
+./scripts/render-all.sh            # 刷新全部图片
+./scripts/export-deliverables.sh   # 刷新全部交付文件
+python3 scripts/gen-bom.py         # 从电路产物反推 BOM
+```
+
+**这两个校验脚本不是摆设** —— 它们在开发过程中抓出了 8 个"构建成功但板子是废的"
+的错误，比如：晶振缺参数导致元件静默消失、绿/蓝 LED 极性写反、
+磁珠料号在库里不存在导致元件零焊盘、网络名与位号重名等等。
+逐条记录在 [`circuits/stm32f302/README.md`](circuits/stm32f302/README.md)。
+
+## 目录
+
+| 路径 | 说明 |
+|------|------|
+| `circuits/stm32f302/` | **本项目**：9 个模块 + 零件库 + 需求/引脚/BOM/位号文档 |
+| `circuits/stm32f302/parts/` | 可复用零件（降压块、LDO 块、指示灯、PH2.0 接口、上拉对、分压） |
+| `scripts/` | 验收、ERC、BOM 生成、渲染、导出 |
+| `out/stm32f302/` | 构建产物与交付文件 |
+| 以下 | 宿主环境的工具链契约 |
+
+---
+
 # my-tscircuit —— 基准机 / 环境契约
 
 这是**基准机**，不是 mock。它是钉死的、可复跑的宿主环境：正式的电路项目也住在这里面，
