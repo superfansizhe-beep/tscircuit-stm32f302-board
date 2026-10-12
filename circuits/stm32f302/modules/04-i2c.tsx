@@ -52,10 +52,10 @@ export const I2cSection = (props: { pcbX?: number; pcbY?: number }) => (
         VCC: { requiresPower: true }, GND: { requiresGround: true },
         SDA: { mustBeConnected: true }, SCL: { mustBeConnected: true },
       }}
-      pcbX={0} pcbY={7} schX={0} schY={4} />
+      pcbX={0} pcbY={10} schX={0} schY={4} />
     <capacitor name="C30" capacitance="100nF" footprint="0603"
       {...partProps(C0603["100nF"])}
-      pcbX={-6} pcbY={7} schX={-5} schY={4} />
+      pcbX={-5} pcbY={10} schX={-5} schY={4} />
 
     {/* ══ 第 2 路：TMP1075 温度传感器（地址 0x48）════════════════════════ */}
     <chip name="U5" footprint="jlcpcb:C2864807"
@@ -67,28 +67,28 @@ export const I2cSection = (props: { pcbX?: number; pcbY?: number }) => (
         VDD: { requiresPower: true }, GND: { requiresGround: true },
         SDA: { mustBeConnected: true }, SCL: { mustBeConnected: true },
       }}
-      pcbX={0} pcbY={-3} schX={0} schY={-4} />
+      pcbX={0} pcbY={1} schX={0} schY={-4} />
     <capacitor name="C31" capacitance="100nF" footprint="0603"
       {...partProps(C0603["100nF"])}
-      pcbX={-6} pcbY={-3} schX={-5} schY={-4} />
+      pcbX={-5} pcbY={1} schX={-5} schY={-4} />
 
     {/* ══ 第 3 路：PH2.0 对外引出 ════════════════════════════════════════ */}
     <Ph20Port ref="J5" pinCount={4}
       pinLabels={{ pin1: "3V3", pin2: "GND", pin3: "SCL", pin4: "SDA" }}
       powerPins={["3V3"]} groundPins={["GND"]}
-      pcbX={-13} pcbY={0} schX={-10} schY={3}
+      pcbX={-5} pcbY={-8} schX={-10} schY={3}
         insertionDirection="from_above" />
 
     {/* ══ 三组上拉 ══════════════════════════════════════════════════════ */}
     <I2cPullupPair scl="R20" sda="R21" resistance="4.7k" supply={NET.V3_3}
       sclNet={NET.I2C1_SCL} sdaNet={NET.I2C1_SDA}
-      pcbX={8} pcbY={10} schX={4} schY={4} />
+      pcbX={4} pcbY={10} schX={4} schY={4} />
     <I2cPullupPair scl="R22" sda="R23" resistance="4.7k" supply={NET.V3_3}
       sclNet={NET.I2C2_SCL} sdaNet={NET.I2C2_SDA}
-      pcbX={8} pcbY={3} schX={4} schY={-4} />
+      pcbX={4} pcbY={1} schX={4} schY={-4} />
     <I2cPullupPair scl="R24" sda="R25" resistance="4.7k" supply={NET.V3_3}
       sclNet={NET.I2C3_SCL} sdaNet={NET.I2C3_SDA}
-      pcbX={8} pcbY={-7} schX={-10} schY={-1} />
+      pcbX={0} pcbY={-13.5} schX={-10} schY={-1} />
 
     {/* ══ 接线：U4 EEPROM ═══════════════════════════════════════════════ */}
     <trace name="U4_VCC" from="U4.VCC" to={NET.V3_3} />

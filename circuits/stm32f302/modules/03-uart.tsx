@@ -28,9 +28,9 @@ const PINS = { pin1: "3V3", pin2: "GND", pin3: "TX", pin4: "RX" } as const
 
 /** 三路串口：位号、收发网络、PCB 与原理图坐标 */
 const PORTS = [
-  { ref: "J2", tx: NET.UART1_TX, rx: NET.UART1_RX, pcbX: -12, schY: 6 },
-  { ref: "J3", tx: NET.UART2_TX, rx: NET.UART2_RX, pcbX: 0, schY: 0 },
-  { ref: "J4", tx: NET.UART3_TX, rx: NET.UART3_RX, pcbX: 12, schY: -6 },
+  { ref: "J2", tx: NET.UART1_TX, rx: NET.UART1_RX, pcbY: 8, schY: 6 },
+  { ref: "J3", tx: NET.UART2_TX, rx: NET.UART2_RX, pcbY: 0, schY: 0 },
+  { ref: "J4", tx: NET.UART3_TX, rx: NET.UART3_RX, pcbY: -8, schY: -6 },
 ] as const
 
 export const UartSection = (props: { pcbX?: number; pcbY?: number }) => (
@@ -39,7 +39,7 @@ export const UartSection = (props: { pcbX?: number; pcbY?: number }) => (
       <Fragment key={p.ref}>
         <Ph20Port ref={p.ref} pinCount={4} pinLabels={PINS}
           powerPins={["3V3"]} groundPins={["GND"]}
-          pcbX={p.pcbX} pcbY={0} schX={0} schY={p.schY}
+          pcbX={0} pcbY={p.pcbY} schX={0} schY={p.schY}
         insertionDirection="from_above" />
         <trace name={`${p.ref}_VCC`} from={`${p.ref}.3V3`} to={NET.V3_3} />
         <trace name={`${p.ref}_GND`} from={`${p.ref}.GND`} to={NET.GND} />

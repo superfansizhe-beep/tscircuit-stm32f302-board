@@ -70,15 +70,20 @@ import { LedSection } from "./modules/09-led"
  *        x=−40              x=0               x=+40
  */
 const LAYOUT = {
-  PWR: { pcbX: -7.5, pcbY: 31.0 }, //  左上：40.2×24.0
-  MCU: { pcbX: 21.0, pcbY: 27.15 }, //  右上：34.0×27.8
-  SPI: { pcbX: 20.7, pcbY: 1.4 }, //  中右：35.7×23.9
-  I2C: { pcbX: -21.3, pcbY: 4.0 }, //  中左：31.7×18.5
-  UART: { pcbX: -22.3, pcbY: -7.4 }, //  左中：34.5×5.2（三个串口一排）
-  ADC: { pcbX: -28.5, pcbY: -17.2 }, //  左下：23.0×9.5
-  CAN: { pcbX: 0.3, pcbY: -17.2 }, //  中下：23.8×9.5
-  PWM: { pcbX: -32.1, pcbY: -28.0 }, //  左下角：15.8×8.1（舵机轨）
-  LED: { pcbX: 19.5, pcbY: -23.0 }, //  右下：7.1×12.0
+  // ── 上边：电源（大块，无信号） + SPI（SPI2 在 U3 上边） ──
+  PWR: { pcbX: -9.1, pcbY: 30.5 },
+  SPI: { pcbX: 29.2, pcbY: 29.4 },
+  // ── 主控居中：U3 落在板心 (0,0) ──
+  MCU: { pcbX: 0, pcbY: 0 },
+  // ── 左边：I2C（I2C1 的 PB6/PB7 在 U3 左边）──
+  I2C: { pcbX: -29.8, pcbY: -0.8 },
+  // ── 右边：UART（USART1/3 在 U3 右边）──
+  UART: { pcbX: 34.7, pcbY: 0 },
+  // ── 下边：ADC / CAN / PWM / LED ──
+  CAN: { pcbX: -23.7, pcbY: -24.2 },
+  ADC: { pcbX: -2.5, pcbY: -24.2 },
+  PWM: { pcbX: 31.9, pcbY: -35.9 },
+  LED: { pcbX: 38.5, pcbY: -19 },
 } as const
 
 export default () => (

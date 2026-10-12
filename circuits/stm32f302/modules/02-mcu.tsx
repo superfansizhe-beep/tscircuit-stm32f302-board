@@ -132,60 +132,60 @@ export const McuSection = (props: { pcbX?: number; pcbY?: number }) => (
     <crystal name="Y1" frequency="8MHz" loadCapacitance="10pF" pinVariant="four_pin"
       footprint="jlcpcb:C400090" manufacturerPartNumber="TAXM8M4RDBCCT2T"
       supplierPartNumbers={{ jlcpcb: ["C400090"] }}
-      pcbX={-1.5} pcbY={-9.7} schX={-6} schY={7} />
+      pcbX={-2.5} pcbY={-9.5} schX={-6} schY={7} />
     <capacitor name="C18" capacitance="12pF" footprint="0603"
       {...partProps(C0603["12pF"])}
-      pcbX={-5} pcbY={-8.7} schX={-10} schY={7} />
+      pcbX={-6.5} pcbY={-10.5} schX={-10} schY={7} />
     <capacitor name="C19" capacitance="12pF" footprint="0603"
       {...partProps(C0603["12pF"])}
-      pcbX={3} pcbY={-8.7} schX={-2} schY={7} />
+      pcbX={1.5} pcbY={-11.0} schX={-2} schY={7} />
 
     {/* ══ VDD 去耦 ══════════════════════════════════════════════════════ */}
     <capacitor name="C10" capacitance="100nF" footprint="0603"
-      {...partProps(C0603["100nF"])} pcbX={-9.5} pcbY={8.5} schX={2} schY={7} />
+      {...partProps(C0603["100nF"])} pcbX={8.8} pcbY={-2.75} schX={2} schY={7} />
     <capacitor name="C11" capacitance="100nF" footprint="0603"
-      {...partProps(C0603["100nF"])} pcbX={9.5} pcbY={8.5} schX={6} schY={7} />
+      {...partProps(C0603["100nF"])} pcbX={8.8} pcbY={3.75} schX={6} schY={7} />
     <capacitor name="C12" capacitance="100nF" footprint="0603"
-      {...partProps(C0603["100nF"])} pcbX={-9.5} pcbY={-8.5} schX={10} schY={7} />
+      {...partProps(C0603["100nF"])} pcbX={-8.8} pcbY={-3.75} schX={10} schY={7} />
     <capacitor name="C13" capacitance="100nF" footprint="0603"
-      {...partProps(C0603["100nF"])} pcbX={9.5} pcbY={-8.5} schX={-10} schY={-3} />
+      {...partProps(C0603["100nF"])} pcbX={-3.75} pcbY={8.8} schX={-10} schY={-3} />
     <capacitor name="C14" capacitance="4.7uF" footprint="0603"
-      {...partProps(C0603["4.7uF"])} pcbX={-9.5} pcbY={0} schX={-6} schY={3} />
+      {...partProps(C0603["4.7uF"])} pcbX={8.8} pcbY={0.5} schX={-6} schY={3} />
 
     {/* ══ VBAT ══════════════════════════════════════════════════════════ */}
     <capacitor name="C17" capacitance="100nF" footprint="0603"
-      {...partProps(C0603["100nF"])} pcbX={13} pcbY={8} schX={10} schY={3} />
+      {...partProps(C0603["100nF"])} pcbX={-6.5} pcbY={-8.5} schX={10} schY={3} />
 
     {/* ══ VDDA 隔离与滤波 ═══════════════════════════════════════════════ */}
     <chip name="FB1" footprint="jlcpcb:C19330"
       {...partProps(FB_0603)}
       pinLabels={{ pin1: "IN", pin2: "OUT" }}
       pinAttributes={{ IN: { requiresPower: true }, OUT: { providesPower: true } }}
-      pcbX={-13.5} pcbY={0} schX={-2} schY={3} />
+      pcbX={-9.5} pcbY={-13.0} schX={-2} schY={3} />
     <capacitor name="C15" capacitance="1uF" footprint="0603"
-      {...partProps(C0603["1uF"])} pcbX={-13.5} pcbY={4.5} schX={2} schY={3} />
+      {...partProps(C0603["1uF"])} pcbX={2.0} pcbY={-8.2} schX={2} schY={3} />
     <capacitor name="C16" capacitance="10nF" footprint="0603"
-      {...partProps(C0603["10nF"])} pcbX={-13.5} pcbY={-4.5} schX={6} schY={3} />
+      {...partProps(C0603["10nF"])} pcbX={5.5} pcbY={-8.2} schX={6} schY={3} />
 
     {/* ══ RESET / BOOT 阻容与按键 ═══════════════════════════════════════ */}
     <resistor name="R10" resistance="10k" footprint="0603"
-      {...partProps(R0603["10k"])} pcbX={-18} pcbY={4} schX={-6} schY={-3} />
+      {...partProps(R0603["10k"])} pcbX={-0.5} pcbY={-16.5} schX={-6} schY={-3} />
     <capacitor name="C20" capacitance="100nF" footprint="0603"
-      {...partProps(C0603["100nF"])} pcbX={-18} pcbY={8} schX={-2} schY={-3} />
+      {...partProps(C0603["100nF"])} pcbX={3.0} pcbY={-16.5} schX={-2} schY={-3} />
     <resistor name="R11" resistance="10k" footprint="0603"
-      {...partProps(R0603["10k"])} pcbX={-13.5} pcbY={-8} schX={2} schY={-3} />
+      {...partProps(R0603["10k"])} pcbX={-4.5} pcbY={-16.5} schX={2} schY={-3} />
     <resistor name="R12" resistance="10k" footprint="0603"
-      {...partProps(R0603["10k"])} pcbX={-18} pcbY={-8} schX={6} schY={-3} />
+      {...partProps(R0603["10k"])} pcbX={-9.5} pcbY={-16.5} schX={6} schY={-3} />
     <switch name="SW2" footprint="jlcpcb:C318884"
       manufacturerPartNumber="TS-1187A-B-A-B"
       supplierPartNumbers={{ jlcpcb: ["C318884"] }}
       pinLabels={{ pin1: "A1", pin2: "A2", pin3: "B1", pin4: "B2" }}
-      pcbX={-4} pcbY={10} schX={-10} schY={-7} />
+      pcbX={-16.0} pcbY={-12.0} schX={-10} schY={-7} />
     <switch name="SW3" footprint="jlcpcb:C318884"
       manufacturerPartNumber="TS-1187A-B-A-B"
       supplierPartNumbers={{ jlcpcb: ["C318884"] }}
       pinLabels={{ pin1: "A1", pin2: "A2", pin3: "B1", pin4: "B2" }}
-      pcbX={4} pcbY={10} schX={-6} schY={-7} />
+      pcbX={-16.0} pcbY={-4.0} schX={-6} schY={-7} />
 
     {/* ══ SWD 调试口 ════════════════════════════════════════════════════ */}
     {/* SWD 调试口。立式 2×5 排针 —— 线缆从**板子上方垂直**插入，
@@ -209,7 +209,7 @@ export const McuSection = (props: { pcbX?: number; pcbY?: number }) => (
         GND2: { requiresGround: true },
         GND3: { requiresGround: true },
       }}
-      pcbX={11} pcbY={0} pcbRotation={90} schX={10} schY={-3}
+      pcbX={14.0} pcbY={0} pcbRotation={90} schX={10} schY={-3}
     >
       <footprint insertionDirection="from_above" />
     </connector>

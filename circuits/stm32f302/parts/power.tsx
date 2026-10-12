@@ -55,32 +55,32 @@ export const BuckConverter = (props: {
       footprint="jlcpcb:C354583"
       manufacturerPartNumber="CKCSA4020-4.7uH/M"
       supplierPartNumbers={{ jlcpcb: ["C354583"] }}
-      pcbX={props.pcbX + 6}
-      pcbY={props.pcbY}
+      pcbX={props.pcbX + 4.5}
+      pcbY={props.pcbY + 1.5}
       schX={props.schX + 6}
       schY={props.schY}
     />
     <capacitor name={props.capIn} capacitance="22uF" footprint="0805"
       {...partProps(C0805["22uF"])}
-      pcbX={props.pcbX - 8} pcbY={props.pcbY + 6} schX={props.schX - 10} schY={props.schY - 5} />
+      pcbX={props.pcbX + 4} pcbY={props.pcbY - 2.6} schX={props.schX - 10} schY={props.schY - 5} />
     <capacitor name={props.capInHf} capacitance="100nF" footprint="0603"
       {...partProps(C0603["100nF"])}
-      pcbX={props.pcbX - 4} pcbY={props.pcbY + 6} schX={props.schX - 6} schY={props.schY - 5} />
+      pcbX={props.pcbX + 4} pcbY={props.pcbY + 2.6} schX={props.schX - 6} schY={props.schY - 5} />
     <capacitor name={props.capBs} capacitance="100nF" footprint="0603"
       {...partProps(C0603["100nF"])}
-      pcbX={props.pcbX} pcbY={props.pcbY + 6} schX={props.schX - 2} schY={props.schY - 5} />
+      pcbX={props.pcbX} pcbY={props.pcbY + 3.4} schX={props.schX - 2} schY={props.schY - 5} />
     <resistor name={props.rFbTop} resistance="100k" footprint="0603"
       {...partProps(R0603["100k"])}
-      pcbX={props.pcbX + 4} pcbY={props.pcbY + 6} schX={props.schX + 2} schY={props.schY - 5} />
+      pcbX={props.pcbX - 4.4} pcbY={props.pcbY - 1.6} schX={props.schX + 2} schY={props.schY - 5} />
     <resistor name={props.rFbBottom} resistance="19.1k" footprint="0603"
       {...partProps(R0603["19.1k"])}
-      pcbX={props.pcbX + 8} pcbY={props.pcbY + 6} schX={props.schX + 6} schY={props.schY - 5} />
+      pcbX={props.pcbX - 4.4} pcbY={props.pcbY - 4.6} schX={props.schX + 6} schY={props.schY - 5} />
     <capacitor name={props.capOut} capacitance="22uF" footprint="0805"
       {...partProps(C0805["22uF"])}
-      pcbX={props.pcbX + 12} pcbY={props.pcbY} schX={props.schX + 11} schY={props.schY - 5} />
+      pcbX={props.pcbX + 8.8} pcbY={props.pcbY + 1.5} schX={props.schX + 11} schY={props.schY - 5} />
     <capacitor name={props.capOutHf} capacitance="100nF" footprint="0603"
       {...partProps(C0603["100nF"])}
-      pcbX={props.pcbX + 12} pcbY={props.pcbY + 3.5} schX={props.schX + 11} schY={props.schY - 1.5} />
+      pcbX={props.pcbX + 8.8} pcbY={props.pcbY - 1.5} schX={props.schX + 11} schY={props.schY - 1.5} />
 
     {/* 输入侧 */}
     <trace name={`${props.capIn}_IN`} from={`${props.capIn}.pin1`} to={props.inNet} />
@@ -145,10 +145,10 @@ export const LdoRegulator = (props: {
     />
     <capacitor name={props.capIn} capacitance="1uF" footprint="0603"
       {...partProps(C0603["1uF"])}
-      pcbX={props.pcbX - 4} pcbY={props.pcbY - 6} schX={props.schX - 6} schY={props.schY} />
+      pcbX={props.pcbX - 4} pcbY={props.pcbY - 3} schX={props.schX - 6} schY={props.schY} />
     <capacitor name={props.capOut} capacitance="1uF" footprint="0603"
       {...partProps(C0603["1uF"])}
-      pcbX={props.pcbX + 6} pcbY={props.pcbY - 6} schX={props.schX + 6} schY={props.schY} />
+      pcbX={props.pcbX - 4} pcbY={props.pcbY + 3} schX={props.schX + 6} schY={props.schY} />
 
     <trace name={`${props.capIn}_IN`} from={`${props.capIn}.pin1`} to={props.inNet} />
     <trace name={`${props.ic}_IN`} from={`${props.ic}.IN`} to={props.inNet} />
