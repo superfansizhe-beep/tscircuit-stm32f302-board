@@ -103,6 +103,7 @@ export default () => (
     placementDrcChecksDisabled
     /* 试过 autorouterEffortLevel="10x" 想让它自己找到晶振的短路 ——
        实测直接把布线器跑崩（0 条走线 + 异常堆栈），已回退默认。 */
+    nominalTraceWidth="0.25mm"
   >
     {/* ── 原理图分页：一条要求一页 ─────────────────────────────────── */}
     {PAGES.map((p) => (
@@ -124,5 +125,17 @@ export default () => (
     <PwmSection pcbX={LAYOUT.PWM.pcbX} pcbY={LAYOUT.PWM.pcbY} />
     <AdcSection pcbX={LAYOUT.ADC.pcbX} pcbY={LAYOUT.ADC.pcbY} />
     <LedSection pcbX={LAYOUT.LED.pcbX} pcbY={LAYOUT.LED.pcbY} />
+    {/* ── GND 铺铜：布线之后的最后一步 ────────────────────────────────
+        2 层板没有专用地层，底层铺一整块地平面最划算：既给所有信号
+        提供最短回流路径，也把空白区域铺满。clearance 让开走线与焊盘，
+        useThermalReliefs 便于手工焊接。 */}
+    <copperpour
+      name="GND_BOTTOM"
+      layer="bottom"
+      connectsTo="net.GND"
+      clearance="0.25mm"
+      boardEdgeMargin="0.4mm"
+      useThermalReliefs
+    />
   </board>
 )

@@ -69,8 +69,8 @@ export const VoltageDivider = (props: {
     <trace name={`${props.top}_IN`} from={`${props.top}.pin1`} to={props.inputNet} />
     <trace name={`${props.top}_SENSE`} from={`${props.top}.pin2`} to={props.senseNet} />
     <trace name={`${props.bottom}_SENSE`} from={`${props.bottom}.pin1`} to={props.senseNet} />
-    <trace name={`${props.bottom}_GND`} from={`${props.bottom}.pin2`} to={NET.GND} />
+    <trace name={`${props.bottom}_GND`} from={`${props.bottom}.pin2`} to={NET.GND}   width="0.4mm" />
     <trace name={`${props.cap}_SENSE`} from={`${props.cap}.pin1`} to={props.senseNet} />
-    <trace name={`${props.cap}_GND`} from={`${props.cap}.pin2`} to={NET.GND} />
+    <trace name={`${props.cap}_GND`} from={`${props.cap}.pin2`} to={NET.GND}   width="0.4mm" />
   </>
 )

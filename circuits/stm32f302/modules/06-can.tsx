@@ -72,17 +72,17 @@ export const CanSection = (props: { pcbX?: number; pcbY?: number }) => (
         insertionDirection="from_above" />
 
     {/* 收发器供电与地 */}
-    <trace name="U7_VCC" from="U7.VCC" to={NET.V3_3} />
-    <trace name="U7_GND" from="U7.GND" to={NET.GND} />
-    <trace name="C34_VCC" from="C34.pin1" to={NET.V3_3} />
-    <trace name="C34_GND" from="C34.pin2" to={NET.GND} />
+    <trace name="U7_VCC" from="U7.VCC" to={NET.V3_3}   width="0.4mm" />
+    <trace name="U7_GND" from="U7.GND" to={NET.GND}   width="0.4mm" />
+    <trace name="C34_VCC" from="C34.pin1" to={NET.V3_3}   width="0.4mm" />
+    <trace name="C34_GND" from="C34.pin2" to={NET.GND}   width="0.4mm" />
 
     {/* MCU 侧收发信号 */}
     <trace name="CAN_TX_TO_U7" from="U7.TXD" to={NET.CAN_TX} />
     <trace name="CAN_RX_FROM_U7" from="U7.RXD" to={NET.CAN_RX} />
 
     {/* TXD 上拉：MCU 复位期间保持总线隐性 */}
-    <trace name="R29_RAIL" from="R29.pin1" to={NET.V3_3} />
+    <trace name="R29_RAIL" from="R29.pin1" to={NET.V3_3}   width="0.4mm" />
     <trace name="R29_TXD" from="R29.pin2" to={NET.CAN_TX} />
 
     {/* 总线侧：CANH / CANL / 终端电阻 */}
@@ -92,6 +92,6 @@ export const CanSection = (props: { pcbX?: number; pcbY?: number }) => (
     <trace name="R28_CANL" from="R28.pin2" to={NET.CANL} />
     <trace name="J7_CANH" from="J7.CANH" to={NET.CANH} />
     <trace name="J7_CANL" from="J7.CANL" to={NET.CANL} />
-    <trace name="J7_GND" from="J7.GND" to={NET.GND} />
+    <trace name="J7_GND" from="J7.GND" to={NET.GND}   width="0.4mm" />
   </group>
 )

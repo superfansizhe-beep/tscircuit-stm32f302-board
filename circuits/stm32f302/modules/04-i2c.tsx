@@ -91,33 +91,33 @@ export const I2cSection = (props: { pcbX?: number; pcbY?: number }) => (
       pcbX={0} pcbY={-13.5} schX={-10} schY={-1} />
 
     {/* ══ 接线：U4 EEPROM ═══════════════════════════════════════════════ */}
-    <trace name="U4_VCC" from="U4.VCC" to={NET.V3_3} />
-    <trace name="U4_GND" from="U4.GND" to={NET.GND} />
+    <trace name="U4_VCC" from="U4.VCC" to={NET.V3_3}   width="0.4mm" />
+    <trace name="U4_GND" from="U4.GND" to={NET.GND}   width="0.4mm" />
     {/* 三个地址脚全接地 → 0x50 */}
-    <trace name="U4_A0" from="U4.A0" to={NET.GND} />
-    <trace name="U4_A1" from="U4.A1" to={NET.GND} />
-    <trace name="U4_A2" from="U4.A2" to={NET.GND} />
+    <trace name="U4_A0" from="U4.A0" to={NET.GND}   width="0.4mm" />
+    <trace name="U4_A1" from="U4.A1" to={NET.GND}   width="0.4mm" />
+    <trace name="U4_A2" from="U4.A2" to={NET.GND}   width="0.4mm" />
     {/* WP 接地 = 允许写入 */}
-    <trace name="U4_WP" from="U4.WP" to={NET.GND} />
+    <trace name="U4_WP" from="U4.WP" to={NET.GND}   width="0.4mm" />
     <trace name="U4_SCL" from="U4.SCL" to={NET.I2C1_SCL} />
     <trace name="U4_SDA" from="U4.SDA" to={NET.I2C1_SDA} />
-    <trace name="C30_VCC" from="C30.pin1" to={NET.V3_3} />
-    <trace name="C30_GND" from="C30.pin2" to={NET.GND} />
+    <trace name="C30_VCC" from="C30.pin1" to={NET.V3_3}   width="0.4mm" />
+    <trace name="C30_GND" from="C30.pin2" to={NET.GND}   width="0.4mm" />
 
     {/* ══ 接线：U5 温度传感器 ═══════════════════════════════════════════ */}
-    <trace name="U5_VDD" from="U5.VDD" to={NET.V3_3} />
-    <trace name="U5_GND" from="U5.GND" to={NET.GND} />
-    <trace name="U5_A0" from="U5.A0" to={NET.GND} />
-    <trace name="U5_A1" from="U5.A1" to={NET.GND} />
-    <trace name="U5_A2" from="U5.A2" to={NET.GND} />
+    <trace name="U5_VDD" from="U5.VDD" to={NET.V3_3}   width="0.4mm" />
+    <trace name="U5_GND" from="U5.GND" to={NET.GND}   width="0.4mm" />
+    <trace name="U5_A0" from="U5.A0" to={NET.GND}   width="0.4mm" />
+    <trace name="U5_A1" from="U5.A1" to={NET.GND}   width="0.4mm" />
+    <trace name="U5_A2" from="U5.A2" to={NET.GND}   width="0.4mm" />
     <trace name="U5_SCL" from="U5.SCL" to={NET.I2C2_SCL} />
     <trace name="U5_SDA" from="U5.SDA" to={NET.I2C2_SDA} />
-    <trace name="C31_VDD" from="C31.pin1" to={NET.V3_3} />
-    <trace name="C31_GND" from="C31.pin2" to={NET.GND} />
+    <trace name="C31_VDD" from="C31.pin1" to={NET.V3_3}   width="0.4mm" />
+    <trace name="C31_GND" from="C31.pin2" to={NET.GND}   width="0.4mm" />
 
     {/* ══ 接线：J5 对外引出 ═════════════════════════════════════════════ */}
-    <trace name="J5_VCC" from="J5.3V3" to={NET.V3_3} />
-    <trace name="J5_GND" from="J5.GND" to={NET.GND} />
+    <trace name="J5_VCC" from="J5.3V3" to={NET.V3_3}   width="0.4mm" />
+    <trace name="J5_GND" from="J5.GND" to={NET.GND}   width="0.4mm" />
     <trace name="J5_SCL" from="J5.SCL" to={NET.I2C3_SCL} />
     <trace name="J5_SDA" from="J5.SDA" to={NET.I2C3_SDA} />
   </group>

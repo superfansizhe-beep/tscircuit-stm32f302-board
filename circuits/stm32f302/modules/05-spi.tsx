@@ -112,23 +112,23 @@ export const SpiSection = (props: { pcbX?: number; pcbY?: number }) => (
         insertionDirection="from_above" />
 
     {/* ══ 接线：U6 供电与去耦 ═══════════════════════════════════════════ */}
-    <trace name="U6_VDD" from="U6.VDD" to={NET.V3_3} />
-    <trace name="U6_VSS" from="U6.VSS" to={NET.GND} />
-    <trace name="C32_VDD" from="C32.pin1" to={NET.V3_3} />
-    <trace name="C32_GND" from="C32.pin2" to={NET.GND} />
-    <trace name="C33_VDD" from="C33.pin1" to={NET.V3_3} />
-    <trace name="C33_GND" from="C33.pin2" to={NET.GND} />
+    <trace name="U6_VDD" from="U6.VDD" to={NET.V3_3}   width="0.4mm" />
+    <trace name="U6_VSS" from="U6.VSS" to={NET.GND}   width="0.4mm" />
+    <trace name="C32_VDD" from="C32.pin1" to={NET.V3_3}   width="0.4mm" />
+    <trace name="C32_GND" from="C32.pin2" to={NET.GND}   width="0.4mm" />
+    <trace name="C33_VDD" from="C33.pin1" to={NET.V3_3}   width="0.4mm" />
+    <trace name="C33_GND" from="C33.pin2" to={NET.GND}   width="0.4mm" />
 
     {/* ══ 接线：U6 地址脚全接地（SPI 操作码器件地址位 = 0）══════════════ */}
-    <trace name="U6_A0" from="U6.A0" to={NET.GND} />
-    <trace name="U6_A1" from="U6.A1" to={NET.GND} />
-    <trace name="U6_A2" from="U6.A2" to={NET.GND} />
+    <trace name="U6_A0" from="U6.A0" to={NET.GND}   width="0.4mm" />
+    <trace name="U6_A1" from="U6.A1" to={NET.GND}   width="0.4mm" />
+    <trace name="U6_A2" from="U6.A2" to={NET.GND}   width="0.4mm" />
 
     {/* ══ 接线：RESET / CS 上拉 ═════════════════════════════════════════ */}
-    <trace name="R26_RAIL" from="R26.pin1" to={NET.V3_3} />
+    <trace name="R26_RAIL" from="R26.pin1" to={NET.V3_3}   width="0.4mm" />
     <trace name="R26_RESET" from="R26.pin2" to={NET.MCP_RESET} />
     <trace name="U6_RESET" from="U6.RESET" to={NET.MCP_RESET} />
-    <trace name="R27_RAIL" from="R27.pin1" to={NET.V3_3} />
+    <trace name="R27_RAIL" from="R27.pin1" to={NET.V3_3}   width="0.4mm" />
     <trace name="R27_CS" from="R27.pin2" to={NET.SPI2_CS} />
     <trace name="U6_CS" from="U6.CS" to={NET.SPI2_CS} />
 
@@ -145,8 +145,8 @@ export const SpiSection = (props: { pcbX?: number; pcbY?: number }) => (
     ))}
 
     {/* ══ 接线：SPI3 对外接口 ═══════════════════════════════════════════ */}
-    <trace name="J6_VCC" from="J6.3V3" to={NET.V3_3} />
-    <trace name="J6_GND" from="J6.GND" to={NET.GND} />
+    <trace name="J6_VCC" from="J6.3V3" to={NET.V3_3}   width="0.4mm" />
+    <trace name="J6_GND" from="J6.GND" to={NET.GND}   width="0.4mm" />
     <trace name="J6_SCK" from="J6.SCK" to={NET.SPI3_SCK} />
     <trace name="J6_MISO" from="J6.MISO" to={NET.SPI3_MISO} />
     <trace name="J6_MOSI" from="J6.MOSI" to={NET.SPI3_MOSI} />
