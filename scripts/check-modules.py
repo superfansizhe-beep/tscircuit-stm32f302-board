@@ -155,6 +155,43 @@ def main() -> int:
 
     print()
     print("=" * 68)
+    print("②b 硬错误兜底（BAD_TYPES 通用扫描 —— 之前漏了这一层，导致 503 丢封装时误报通过）")
+    print("=" * 68)
+    handled = {"pcb_footprint_overlap_error", "pcb_courtyard_overlap_error",
+               "schematic_element_outside_sheet_warning", "source_refdes_convention_warning",
+               "source_failed_to_create_component_error"}
+    n_bad = 0
+    for t in BAD_TYPES:
+        if t in handled:
+            continue
+        cnt = counts.get(t, 0)
+        if cnt:
+            print(f"  ❌ {t}: {cnt}")
+            for e in els:
+                if e.get("type") == t:
+                    print(f"        {str(e.get('message'))[:130]}")
+            n_bad += cnt
+    print(f"  {'✅ 0 个' if not n_bad else f'❌ 共 {n_bad} 条'}")
+    fail += n_bad
+
+    print()
+    print("=" * 68)
+    print("②c 零焊盘元件（封装没加载成功 —— 元件在、但板子上是空的）")
+    print("=" * 68)
+    pad_cnt = defaultdict(int)
+    for e in els:
+        if e.get("type") in ("pcb_smtpad", "pcb_plated_hole"):
+            pad_cnt[e.get("pcb_component_id")] += 1
+    zero = [(nm(cid), mod(cid)) for cid in pcb if pad_cnt.get(cid, 0) == 0]
+    if zero:
+        for n, m in zero:
+            print(f"  ❌ {n} ({m}) 一个焊盘都没有")
+    else:
+        print("  ✅ 0 个")
+    fail += len(zero)
+
+    print()
+    print("=" * 68)
     print("③ 模块【内部】几何冲突（跨模块重叠属预期，全局布局时解决）")
     print("=" * 68)
     for t in ("pcb_footprint_overlap_error", "pcb_courtyard_overlap_error"):
