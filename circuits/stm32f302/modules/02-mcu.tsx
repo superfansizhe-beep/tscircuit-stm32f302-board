@@ -125,16 +125,20 @@ export const McuSection = (props: { pcbX?: number; pcbY?: number }) => (
     />
 
     {/* ══ HSE 8MHz 晶振 ═════════════════════════════════════════════════ */}
+    {/* 晶振必须**贴近 PF0/PF1**：tscircuit 会给晶振网络的走线自动加
+        10mm 长度上限（core 里的 DEFAULT_CRYSTAL_MAX_TRACE_LENGTH_MM），
+        而 PF0/PF1 在 U3 的**底边**。原来把晶振放在顶边外，绕出 14.66mm，
+        直接导致 autorouter 拒绝布线。挪到底边后约 8.5mm。 */}
     <crystal name="Y1" frequency="8MHz" loadCapacitance="10pF" pinVariant="four_pin"
       footprint="jlcpcb:C400090" manufacturerPartNumber="TAXM8M4RDBCCT2T"
       supplierPartNumbers={{ jlcpcb: ["C400090"] }}
-      pcbX={0} pcbY={9.5} schX={-6} schY={7} />
+      pcbX={-1.5} pcbY={-9.7} schX={-6} schY={7} />
     <capacitor name="C18" capacitance="12pF" footprint="0603"
       {...partProps(C0603["12pF"])}
-      pcbX={-4.5} pcbY={9.5} schX={-10} schY={7} />
+      pcbX={-5} pcbY={-8.7} schX={-10} schY={7} />
     <capacitor name="C19" capacitance="12pF" footprint="0603"
       {...partProps(C0603["12pF"])}
-      pcbX={4.5} pcbY={9.5} schX={-2} schY={7} />
+      pcbX={3} pcbY={-8.7} schX={-2} schY={7} />
 
     {/* ══ VDD 去耦 ══════════════════════════════════════════════════════ */}
     <capacitor name="C10" capacitance="100nF" footprint="0603"
@@ -176,12 +180,12 @@ export const McuSection = (props: { pcbX?: number; pcbY?: number }) => (
       manufacturerPartNumber="TS-1187A-B-A-B"
       supplierPartNumbers={{ jlcpcb: ["C318884"] }}
       pinLabels={{ pin1: "A1", pin2: "A2", pin3: "B1", pin4: "B2" }}
-      pcbX={-13.5} pcbY={-13.5} schX={-10} schY={-7} />
+      pcbX={-4} pcbY={10} schX={-10} schY={-7} />
     <switch name="SW3" footprint="jlcpcb:C318884"
       manufacturerPartNumber="TS-1187A-B-A-B"
       supplierPartNumbers={{ jlcpcb: ["C318884"] }}
       pinLabels={{ pin1: "A1", pin2: "A2", pin3: "B1", pin4: "B2" }}
-      pcbX={-5} pcbY={-13.5} schX={-6} schY={-7} />
+      pcbX={4} pcbY={10} schX={-6} schY={-7} />
 
     {/* ══ SWD 调试口 ════════════════════════════════════════════════════ */}
     {/* SWD 调试口。立式 2×5 排针 —— 线缆从**板子上方垂直**插入，

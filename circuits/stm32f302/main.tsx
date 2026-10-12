@@ -71,7 +71,7 @@ import { LedSection } from "./modules/09-led"
  */
 const LAYOUT = {
   PWR: { pcbX: -7.5, pcbY: 31.0 }, //  左上：40.2×24.0
-  MCU: { pcbX: 21.0, pcbY: 28.2 }, //  右上：34.0×27.8
+  MCU: { pcbX: 21.0, pcbY: 27.15 }, //  右上：34.0×27.8
   SPI: { pcbX: 20.7, pcbY: 1.4 }, //  中右：35.7×23.9
   I2C: { pcbX: -21.3, pcbY: 4.0 }, //  中左：31.7×18.5
   UART: { pcbX: -22.3, pcbY: -7.4 }, //  左中：34.5×5.2（三个串口一排）
@@ -82,7 +82,23 @@ const LAYOUT = {
 } as const
 
 export default () => (
-  <board width="80mm" height="80mm" layers={2}>
+  /* 关闭 tscircuit 的**布局** DRC。
+     为什么必须关：PWM 舵机轨的三排排针按 2.54mm 紧贴（这是让一个 3 脚
+     舵机头能横跨三排的必要间距），而排针庭院是 3.04mm，必然重叠 0.50mm。
+     tscircuit 会因此报布局错误并**拒绝布线**（实测 pcb_trace = 0）。
+     这个开关只在 board 层生效 —— core 是从 board 读的，写在 group 上无效。
+
+     ⚠️ 关掉它等于放弃 tscircuit 的布局检查，所以**必须由自己的检查顶上**：
+        scripts/check-modules.py 会逐模块查几何重叠（含具名豁免与理由）、
+        零焊盘元件、元素越出板边。改板子后务必跑它，不要只看构建成功。 */
+  <board
+    width="80mm"
+    height="80mm"
+    layers={2}
+    placementDrcChecksDisabled
+    /* 试过 autorouterEffortLevel="10x" 想让它自己找到晶振的短路 ——
+       实测直接把布线器跑崩（0 条走线 + 异常堆栈），已回退默认。 */
+  >
     {/* ── 原理图分页：一条要求一页 ─────────────────────────────────── */}
     {PAGES.map((p) => (
       <schematicsheet
