@@ -1,6 +1,9 @@
 node_modules/
 out/*
 !out/.gitkeep
+# 但 stm32f302 这个工程的产物要纳入版本管理 —— 交付图片、Gerber、KiCad、
+# 3D 模型都在这里，它们本身就是交付物，不能当垃圾构建产物忽略掉。
+!out/stm32f302/
 .tscircuit/
 *.log
 .DS_Store
