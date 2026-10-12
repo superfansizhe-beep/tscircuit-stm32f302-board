@@ -33,9 +33,10 @@ const SHEET: (typeof PAGES)[number]["name"] = "led"
 
 /** 三路：位号、接的 GPIO 网络、PCB 与原理图坐标 */
 const CHANNELS = [
-  { led: "LED1", res: "R36", gpio: NET.GPIO_LED1, pcbY: 0, schY: 4 },
+  // schX=-2 让"电阻+LED"这一对的中心落在页面正中（LED 固定在 res 的 +4 处）
+  { led: "LED1", res: "R36", gpio: NET.GPIO_LED1, pcbY: 0, schY: 5 },
   { led: "LED2", res: "R37", gpio: NET.GPIO_LED2, pcbY: -5, schY: 0 },
-  { led: "LED3", res: "R38", gpio: NET.GPIO_LED3, pcbY: -10, schY: -4 },
+  { led: "LED3", res: "R38", gpio: NET.GPIO_LED3, pcbY: -10, schY: -5 },
 ] as const
 
 export const LedSection = (props: { pcbX?: number; pcbY?: number }) => (
@@ -50,7 +51,7 @@ export const LedSection = (props: { pcbX?: number; pcbY?: number }) => (
         supply={ch.gpio}
         pcbX={-8}
         pcbY={ch.pcbY}
-        schX={-5}
+        schX={-2}
         schY={ch.schY}
       />
     ))}

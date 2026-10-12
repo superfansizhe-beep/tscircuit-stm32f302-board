@@ -54,21 +54,21 @@ export const CanSection = (props: { pcbX?: number; pcbY?: number }) => (
         GND: { requiresGround: true },
         TXD: { mustBeConnected: true },
       }}
-      pcbX={0} pcbY={0} schX={0} schY={2}
+      pcbX={0} pcbY={0} schX={0} schY={0}
     />
 
     <resistor name="R28" resistance="120" footprint="0603"
       {...partProps(R0603["120"])}
-      pcbX={6} pcbY={4} schX={8} schY={6} />
+      pcbX={6} pcbY={4} schX={8} schY={4} />
     <resistor name="R29" resistance="10k" footprint="0603"
       {...partProps(R0603["10k"])}
-      pcbX={6} pcbY={0} schX={8} schY={2} />
+      pcbX={6} pcbY={0} schX={8} schY={0} />
     <capacitor name="C34" capacitance="100nF" footprint="0603"
       {...partProps(C0603["100nF"])}
-      pcbX={6} pcbY={-4} schX={8} schY={-2} />
+      pcbX={6} pcbY={-4} schX={8} schY={-4} />
 
     <Ph20Port ref="J7" pinCount={3} pinLabels={{ pin1: "CANH", pin2: "CANL", pin3: "GND" }}
-      groundPins={["GND"]} pcbX={-12} pcbY={0} schX={-10} schY={2}
+      groundPins={["GND"]} pcbX={-12} pcbY={0} schX={-10} schY={0}
         insertionDirection="from_above" />
 
     {/* 收发器供电与地 */}

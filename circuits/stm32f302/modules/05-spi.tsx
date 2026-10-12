@@ -78,7 +78,7 @@ export const SpiSection = (props: { pcbX?: number; pcbY?: number }) => (
         RESET: { mustBeConnected: true },
         CS: { mustBeConnected: true },
       }}
-      pcbX={0} pcbY={0} schX={2} schY={2}
+      pcbX={0} pcbY={0} schX={4} schY={-0.5}
     />
 
     <connector
@@ -87,28 +87,28 @@ export const SpiSection = (props: { pcbX?: number; pcbY?: number }) => (
       manufacturerPartNumber="2.54-2*8P"
       supplierPartNumbers={{ jlcpcb: ["C68234"] }}
       pinLabels={GPIO_HEADER_PINS}
-      pcbX={0} pcbY={-11} schX={2} schY={-7}
+      pcbX={0} pcbY={-11} schX={4} schY={-7.5}
     />
 
     <capacitor name="C32" capacitance="100nF" footprint="0603"
       {...partProps(C0603["100nF"])}
-      pcbX={9} pcbY={6} schX={-11} schY={-1} />
+      pcbX={9} pcbY={6} schX={-8} schY={-3.5} />
     <capacitor name="C33" capacitance="100nF" footprint="0603"
       {...partProps(C0603["100nF"])}
-      pcbX={9} pcbY={2} schX={-8} schY={-1} />
+      pcbX={9} pcbY={2} schX={-5} schY={-3.5} />
 
     <resistor name="R26" resistance="10k" footprint="0603"
       {...partProps(R0603["10k"])}
-      pcbX={-9} pcbY={6} schX={-11} schY={5} />
+      pcbX={-9} pcbY={6} schX={-8} schY={4.5} />
     <resistor name="R27" resistance="10k" footprint="0603"
       {...partProps(R0603["10k"])}
-      pcbX={-9} pcbY={2} schX={-8} schY={5} />
+      pcbX={-9} pcbY={2} schX={-5} schY={4.5} />
 
     {/* ══ SPI3 → PH2.0 引出 ═════════════════════════════════════════════ */}
     <Ph20Port ref="J6" pinCount={6}
       pinLabels={{ pin1: "3V3", pin2: "GND", pin3: "SCK", pin4: "MISO", pin5: "MOSI", pin6: "CS" }}
       powerPins={["3V3"]} groundPins={["GND"]}
-      pcbX={-18} pcbY={8} schX={-11} schY={8}
+      pcbX={-18} pcbY={8} schX={-8} schY={7.5}
         insertionDirection="from_above" />
 
     {/* ══ 接线：U6 供电与去耦 ═══════════════════════════════════════════ */}
