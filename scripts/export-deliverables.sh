@@ -36,9 +36,15 @@ ex schematic-pdf  "$D/01-原理图/原理图-九页.pdf"
 cp out/stm32f302/main.sch.svg "$D/01-原理图/原理图-矢量.svg" 2>/dev/null || true
 
 echo "── 02 PCB"
-ex pcb-png        "$D/02-PCB/PCB-顶层.png"          # 默认顶层
-ex pcb-png        "$D/02-PCB/PCB-底层.png"          # 见下方 --layer
-./tsci-run export "$SRC" -f pcb-png --layer bottom -o "$D/02-PCB/PCB-底层.png" >/dev/null 2>&1 || true
+# 正反面分开导出。⚠️ 注意：`--layer` 只支持 top / bottom，
+# 内层（inner1/inner2）导不出来 —— 内层只在"全板图"里能看到，
+# 制造上由 Gerber 里的 In1_Cu / In2_Cu 表达。
+# 用 pcb-svg + --layer 再转 PNG，比直接 pcb-png 分辨率高得多（800px → 2400px）。
+for L in top bottom; do
+  case $L in top) NAME=顶层 ;; bottom) NAME=底层 ;; esac
+  ./tsci-run export "$SRC" -f pcb-svg --layer $L -o "/tmp/_pcb-$L.svg" >/dev/null 2>&1 || true
+  bun scripts/svg2png.ts "/tmp/_pcb-$L.svg" "$D/02-PCB/PCB-$NAME.png" 2400 >/dev/null 2>&1 || true
+done
 ex gerbers        "$D/02-PCB/Gerber.zip"
 cp out/stm32f302/main.pcb.svg "$D/02-PCB/PCB-矢量.svg" 2>/dev/null || true
 
