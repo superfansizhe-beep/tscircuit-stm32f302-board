@@ -99,28 +99,11 @@ export default () => (
   <board
     width="80mm"
     height="80mm"
-    layers={2}
+    layers={4}
     placementDrcChecksDisabled
     /* 试过 autorouterEffortLevel="10x" 想让它自己找到晶振的短路 ——
        实测直接把布线器跑崩（0 条走线 + 异常堆栈），已回退默认。 */
     nominalTraceWidth="0.25mm"
-    /* 关闭布线 DRC 的报错。理由与代价都写在这里，不藏着：
-
-       剩下的 13 条都不是致命问题 —— 实测逐条核对过：
-         · 3 条  晶振走线用了过孔。tscircuit 把晶振网络的 max_via_count
-                 硬编码为 0（core 里的 DEFAULT_CRYSTAL_MAX_VIA_COUNT），
-                 没有 prop 可以放宽；布线器在这块 2 层密集板上做不到零过孔。
-         · 9 条  间距偏紧，实测 gap 0.052~0.094mm（要求 0.1mm）。
-                 是我把去耦电容压到 2.8mm 的代价 —— LQFP-64 相邻脚间距才 0.5mm。
-                 电气上更优，DFM 上略紧。
-         · 1 条  U3.PA9 的走线终点在 (-0.8, 6.0)，引脚在 (-0.75, 6.00)，
-                 差 0.05mm。焊盘远大于这个偏差，物理上是连上的，属容差问题。
-
-       ⚠️ 关掉它等于放弃 tscircuit 的布线检查，所以**必须由自己的检查顶上**：
-          scripts/check-modules.py  逐模块查几何重叠 / 零焊盘 / 越出板边
-          scripts/erc.py            八项电气规则（短路 / 重复网络 / 悬空脚 / …）
-          改板子后务必两个都跑，不要只看构建成功。 */
-    routingDrcChecksDisabled
   >
     {/* ── 原理图分页：一条要求一页 ─────────────────────────────────── */}
     {PAGES.map((p) => (
@@ -146,6 +129,16 @@ export default () => (
         2 层板没有专用地层，底层铺一整块地平面最划算：既给所有信号
         提供最短回流路径，也把空白区域铺满。clearance 让开走线与焊盘，
         useThermalReliefs 便于手工焊接。 */}
+    {/* 4 层板的标准叠层：顶层信号 / 内层1 地平面 / 内层2 电源 / 底层信号。
+        内层地平面是 4 层最主要的收益 —— 给每条信号一个紧邻的完整回流面，
+        回流路径短、环路小，串扰和 EMI 都显著好于 2 层。 */}
+    <copperpour
+      name="GND_INNER1"
+      layer="inner1"
+      connectsTo="net.GND"
+      clearance="0.2mm"
+      boardEdgeMargin="0.3mm"
+    />
     <copperpour
       name="GND_BOTTOM"
       layer="bottom"

@@ -73,8 +73,8 @@ export const PowerSection = (props: { pcbX?: number; pcbY?: number }) => (
       schY={2}
     />
     <trace name="V12_IN" from="J1.VIN" to="SW1.COM" />
-    <trace name="V12_SWITCHED" from="SW1.T1" to={NET.V12}   width="0.5mm" />
-    <trace name="V12_IN_GND" from="J1.GND" to={NET.GND}   width="0.4mm" />
+    <trace name="V12_SWITCHED" from="SW1.T1" to={NET.V12}   width="0.8mm" />
+    <trace name="V12_IN_GND" from="J1.GND" to={NET.GND}   width="0.6mm" />
 
     {/* ══ 降压块：12V → 5V ═════════════════════════════════════════════ */}
     <BuckConverter

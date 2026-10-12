@@ -101,14 +101,14 @@ export const PwmSection = (props: { pcbX?: number; pcbY?: number }) => (
     {/* 第 2 排：六个脚全部接 +5V（竖看每列就是舵机头的电源脚） */}
     {[1, 2, 3, 4, 5, 6].map((i) => (
       <Fragment key={`p5v${i}`}>
-        <trace name={`J9_5V_${i}`} from={`J9.P5V_${i}`} to={NET.V5}   width="0.5mm" />
+        <trace name={`J9_5V_${i}`} from={`J9.P5V_${i}`} to={NET.V5}   width="0.8mm" />
       </Fragment>
     ))}
 
     {/* 第 3 排：六个脚全部接地 */}
     {[1, 2, 3, 4, 5, 6].map((i) => (
       <Fragment key={`gnd${i}`}>
-        <trace name={`J10_GND_${i}`} from={`J10.GND${i}`} to={NET.GND}   width="0.4mm" />
+        <trace name={`J10_GND_${i}`} from={`J10.GND${i}`} to={NET.GND}   width="0.6mm" />
       </Fragment>
     ))}
   </group>

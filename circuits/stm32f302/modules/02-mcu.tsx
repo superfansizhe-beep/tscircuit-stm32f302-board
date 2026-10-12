@@ -143,15 +143,15 @@ export const McuSection = (props: { pcbX?: number; pcbY?: number }) => (
 
     {/* ══ VDD 去耦 ══════════════════════════════════════════════════════ */}
     <capacitor name="C10" capacitance="100nF" footprint="0603"
-      {...partProps(C0603["100nF"])} pcbX={8.8} pcbY={-2.75} schX={2} schY={7} />
+      {...partProps(C0603["100nF"])} pcbX={12.0} pcbY={-2.75} schX={2} schY={7} />
     <capacitor name="C11" capacitance="100nF" footprint="0603"
-      {...partProps(C0603["100nF"])} pcbX={8.8} pcbY={3.75} schX={6} schY={7} />
+      {...partProps(C0603["100nF"])} pcbX={12.0} pcbY={3.75} schX={6} schY={7} />
     <capacitor name="C12" capacitance="100nF" footprint="0603"
-      {...partProps(C0603["100nF"])} pcbX={-8.8} pcbY={-3.75} schX={10} schY={7} />
+      {...partProps(C0603["100nF"])} pcbX={-12.0} pcbY={-3.75} schX={10} schY={7} />
     <capacitor name="C13" capacitance="100nF" footprint="0603"
-      {...partProps(C0603["100nF"])} pcbX={-3.75} pcbY={8.8} schX={-10} schY={-3} />
+      {...partProps(C0603["100nF"])} pcbX={-3.75} pcbY={12.0} schX={-10} schY={-3} />
     <capacitor name="C14" capacitance="4.7uF" footprint="0603"
-      {...partProps(C0603["4.7uF"])} pcbX={8.8} pcbY={0.5} schX={-6} schY={3} />
+      {...partProps(C0603["4.7uF"])} pcbX={12.0} pcbY={0.5} schX={-6} schY={3} />
 
     {/* ══ VBAT ══════════════════════════════════════════════════════════ */}
     <capacitor name="C17" capacitance="100nF" footprint="0603"
@@ -210,94 +210,94 @@ export const McuSection = (props: { pcbX?: number; pcbY?: number }) => (
         GND2: { requiresGround: true },
         GND3: { requiresGround: true },
       }}
-      pcbX={14.0} pcbY={0} pcbRotation={90} schX={10} schY={-3}
+      pcbX={17.0} pcbY={0} pcbRotation={90} schX={10} schY={-3}
     >
       <footprint insertionDirection="from_above" />
     </connector>
 
     {/* ══ 接线：电源与地 ════════════════════════════════════════════════ */}
     {/* VDD 有 4 个同名脚，只能按脚号引用 */}
-    <trace name="VDD1" from="U3.pin19" to={NET.V3_3}   width="0.4mm" />
-    <trace name="VDD2" from="U3.pin32" to={NET.V3_3}   width="0.4mm" />
-    <trace name="VDD3" from="U3.pin48" to={NET.V3_3}   width="0.4mm" />
-    <trace name="VDD4" from="U3.pin64" to={NET.V3_3}   width="0.4mm" />
-    <trace name="VSS1" from="U3.pin18" to={NET.GND}   width="0.4mm" />
-    <trace name="VSS2" from="U3.pin31" to={NET.GND}   width="0.4mm" />
-    <trace name="VSS3" from="U3.pin47" to={NET.GND}   width="0.4mm" />
-    <trace name="VSS4" from="U3.pin63" to={NET.GND}   width="0.4mm" />
-    <trace name="VBAT" from="U3.pin1" to={NET.V3_3}   width="0.4mm" />
-    <trace name="VSSA" from="U3.pin12" to={NET.GND}   width="0.4mm" />
+    <trace name="VDD1" from="U3.pin19" to={NET.V3_3}   width="0.6mm" />
+    <trace name="VDD2" from="U3.pin32" to={NET.V3_3}   width="0.6mm" />
+    <trace name="VDD3" from="U3.pin48" to={NET.V3_3}   width="0.6mm" />
+    <trace name="VDD4" from="U3.pin64" to={NET.V3_3}   width="0.6mm" />
+    <trace name="VSS1" from="U3.pin18" to={NET.GND}   width="0.6mm" />
+    <trace name="VSS2" from="U3.pin31" to={NET.GND}   width="0.6mm" />
+    <trace name="VSS3" from="U3.pin47" to={NET.GND}   width="0.6mm" />
+    <trace name="VSS4" from="U3.pin63" to={NET.GND}   width="0.6mm" />
+    <trace name="VBAT" from="U3.pin1" to={NET.V3_3}   width="0.6mm" />
+    <trace name="VSSA" from="U3.pin12" to={NET.GND}   width="0.6mm" />
 
     {/* VDDA 经磁珠从 3.3V 隔离 */}
-    <trace name="VDDA_FROM_3V3" from="FB1.IN" to={NET.V3_3}   width="0.4mm" />
+    <trace name="VDDA_FROM_3V3" from="FB1.IN" to={NET.V3_3}   width="0.6mm" />
     <trace name="VDDA_TO_MCU" from="FB1.OUT" to={NET.VDDA} />
     <trace name="VDDA_MCU" from="U3.VDDA" to={NET.VDDA} />
     <trace name="VDDA_C15" from="C15.pin1" to={NET.VDDA} />
     <trace name="VDDA_C16" from="C16.pin1" to={NET.VDDA} />
-    <trace name="C15_GND" from="C15.pin2" to={NET.GND}   width="0.4mm" />
-    <trace name="C16_GND" from="C16.pin2" to={NET.GND}   width="0.4mm" />
+    <trace name="C15_GND" from="C15.pin2" to={NET.GND}   width="0.6mm" />
+    <trace name="C16_GND" from="C16.pin2" to={NET.GND}   width="0.6mm" />
 
     {/* VDD 去耦电容 */}
-    <trace name="C10_VDD" from="C10.pin1" to={NET.V3_3}   width="0.4mm" />
-    <trace name="C11_VDD" from="C11.pin1" to={NET.V3_3}   width="0.4mm" />
-    <trace name="C12_VDD" from="C12.pin1" to={NET.V3_3}   width="0.4mm" />
-    <trace name="C13_VDD" from="C13.pin1" to={NET.V3_3}   width="0.4mm" />
-    <trace name="C14_VDD" from="C14.pin1" to={NET.V3_3}   width="0.4mm" />
-    <trace name="C10_GND" from="C10.pin2" to={NET.GND}   width="0.4mm" />
-    <trace name="C11_GND" from="C11.pin2" to={NET.GND}   width="0.4mm" />
-    <trace name="C12_GND" from="C12.pin2" to={NET.GND}   width="0.4mm" />
-    <trace name="C13_GND" from="C13.pin2" to={NET.GND}   width="0.4mm" />
-    <trace name="C14_GND" from="C14.pin2" to={NET.GND}   width="0.4mm" />
+    <trace name="C10_VDD" from="C10.pin1" to={NET.V3_3}   width="0.6mm" />
+    <trace name="C11_VDD" from="C11.pin1" to={NET.V3_3}   width="0.6mm" />
+    <trace name="C12_VDD" from="C12.pin1" to={NET.V3_3}   width="0.6mm" />
+    <trace name="C13_VDD" from="C13.pin1" to={NET.V3_3}   width="0.6mm" />
+    <trace name="C14_VDD" from="C14.pin1" to={NET.V3_3}   width="0.6mm" />
+    <trace name="C10_GND" from="C10.pin2" to={NET.GND}   width="0.6mm" />
+    <trace name="C11_GND" from="C11.pin2" to={NET.GND}   width="0.6mm" />
+    <trace name="C12_GND" from="C12.pin2" to={NET.GND}   width="0.6mm" />
+    <trace name="C13_GND" from="C13.pin2" to={NET.GND}   width="0.6mm" />
+    <trace name="C14_GND" from="C14.pin2" to={NET.GND}   width="0.6mm" />
 
     {/* VBAT 去耦 */}
-    <trace name="C17_VBAT" from="C17.pin1" to={NET.V3_3}   width="0.4mm" />
-    <trace name="C17_GND" from="C17.pin2" to={NET.GND}   width="0.4mm" />
+    <trace name="C17_VBAT" from="C17.pin1" to={NET.V3_3}   width="0.6mm" />
+    <trace name="C17_GND" from="C17.pin2" to={NET.GND}   width="0.6mm" />
 
     {/* ══ 接线：HSE 晶振 ════════════════════════════════════════════════ */}
     <trace name="HSE_IN_MCU" from="U3.pin5" to={NET.HSE_IN} />
     <trace name="HSE_OUT_MCU" from="U3.pin6" to={NET.HSE_OUT} />
     <trace name="Y1_IN" from="Y1.pin1" to={NET.HSE_IN} />
     <trace name="Y1_OUT" from="Y1.pin3" to={NET.HSE_OUT} />
-    <trace name="Y1_GND1" from="Y1.pin2" to={NET.GND}   width="0.4mm" />
-    <trace name="Y1_GND2" from="Y1.pin4" to={NET.GND}   width="0.4mm" />
+    <trace name="Y1_GND1" from="Y1.pin2" to={NET.GND}   width="0.6mm" />
+    <trace name="Y1_GND2" from="Y1.pin4" to={NET.GND}   width="0.6mm" />
     <trace name="C18_HSE" from="C18.pin1" to={NET.HSE_IN} />
-    <trace name="C18_GND" from="C18.pin2" to={NET.GND}   width="0.4mm" />
+    <trace name="C18_GND" from="C18.pin2" to={NET.GND}   width="0.6mm" />
     <trace name="C19_HSE" from="C19.pin1" to={NET.HSE_OUT} />
-    <trace name="C19_GND" from="C19.pin2" to={NET.GND}   width="0.4mm" />
+    <trace name="C19_GND" from="C19.pin2" to={NET.GND}   width="0.6mm" />
 
     {/* ══ 接线：复位 ════════════════════════════════════════════════════ */}
     <trace name="NRST_MCU" from="U3.NRST" to={NET.NRST} />
-    <trace name="R10_RAIL" from="R10.pin1" to={NET.V3_3}   width="0.4mm" />
+    <trace name="R10_RAIL" from="R10.pin1" to={NET.V3_3}   width="0.6mm" />
     <trace name="R10_NRST" from="R10.pin2" to={NET.NRST} />
     <trace name="C20_NRST" from="C20.pin1" to={NET.NRST} />
-    <trace name="C20_GND" from="C20.pin2" to={NET.GND}   width="0.4mm" />
+    <trace name="C20_GND" from="C20.pin2" to={NET.GND}   width="0.6mm" />
     {/* SW2 的 pin1=pin2、pin3=pin4 各是一组触点，四个脚都接，不留悬空 */}
     {/* pin1=pin2 是同一组触点、pin3=pin4 是另一组，所以**每组只接一个脚**即可：
         两边都接会被 tscircuit 判成"开关两端接到同一网络"（误认为短接）。
         留空的 pin2/pin4 与已接的脚在器件内部本来就通，电气上无损。 */}
     <trace name="SW2_A" from="SW2.A1" to={NET.NRST} />
-    <trace name="SW2_B" from="SW2.B1" to={NET.GND}   width="0.4mm" />
+    <trace name="SW2_B" from="SW2.B1" to={NET.GND}   width="0.6mm" />
 
     {/* ══ 接线：BOOT0 / BOOT1 ═══════════════════════════════════════════ */}
     <trace name="BOOT0_MCU" from="U3.BOOT0" to={NET.BOOT0} />
     <trace name="R11_BOOT0" from="R11.pin1" to={NET.BOOT0} />
-    <trace name="R11_GND" from="R11.pin2" to={NET.GND}   width="0.4mm" />
+    <trace name="R11_GND" from="R11.pin2" to={NET.GND}   width="0.6mm" />
     <trace name="SW3_A" from="SW3.A1" to={NET.BOOT0} />
-    <trace name="SW3_B" from="SW3.B1" to={NET.V3_3}   width="0.4mm" />
+    <trace name="SW3_B" from="SW3.B1" to={NET.V3_3}   width="0.6mm" />
     {/* BOOT1 = PB2（脚28），下拉保证从 Flash 启动 */}
     <trace name="R12_BOOT1" from="R12.pin1" to="U3.pin28" />
-    <trace name="R12_GND" from="R12.pin2" to={NET.GND}   width="0.4mm" />
+    <trace name="R12_GND" from="R12.pin2" to={NET.GND}   width="0.6mm" />
 
     {/* ══ 接线：SWD 调试口 ══════════════════════════════════════════════ */}
     {/* ARM 标准 10 脚：1=VCC 2=SWDIO 3=GND 4=SWCLK 5=GND 6=SWO 7=KEY 8=NC 9=GND 10=NRST */}
     <trace name="SWDIO_MCU" from="U3.pin46" to={NET.SWDIO} />
     <trace name="SWCLK_MCU" from="U3.pin49" to={NET.SWCLK} />
-    <trace name="J11_VCC" from="J11.VCC" to={NET.V3_3}   width="0.4mm" />
+    <trace name="J11_VCC" from="J11.VCC" to={NET.V3_3}   width="0.6mm" />
     <trace name="J11_SWDIO" from="J11.SWDIO" to={NET.SWDIO} />
-    <trace name="J11_GND1" from="J11.GND1" to={NET.GND}   width="0.4mm" />
+    <trace name="J11_GND1" from="J11.GND1" to={NET.GND}   width="0.6mm" />
     <trace name="J11_SWCLK" from="J11.SWCLK" to={NET.SWCLK} />
-    <trace name="J11_GND2" from="J11.GND2" to={NET.GND}   width="0.4mm" />
-    <trace name="J11_GND3" from="J11.GND3" to={NET.GND}   width="0.4mm" />
+    <trace name="J11_GND2" from="J11.GND2" to={NET.GND}   width="0.6mm" />
+    <trace name="J11_GND3" from="J11.GND3" to={NET.GND}   width="0.6mm" />
     <trace name="J11_NRST" from="J11.NRST" to={NET.NRST} />
 
     {/* ══ 接线：三路串口 ════════════════════════════════════════════════ */}

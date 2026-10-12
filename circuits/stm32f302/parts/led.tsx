@@ -51,7 +51,7 @@ export const LedIndicator = (props: {
       />
       <trace name={`${props.res}_RAIL`} from={`${props.res}.pin1`} to={props.supply} />
       <trace name={`${props.led}_LIMIT`} from={`${props.res}.pin2`} to={`${props.led}.anode`} />
-      <trace name={`${props.led}_GND`} from={`${props.led}.cathode`} to={NET.GND}   width="0.4mm" />
+      <trace name={`${props.led}_GND`} from={`${props.led}.cathode`} to={NET.GND}   width="0.6mm" />
     </>
   )
 }

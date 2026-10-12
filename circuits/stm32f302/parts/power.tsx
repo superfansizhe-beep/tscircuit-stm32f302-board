@@ -87,9 +87,9 @@ export const BuckConverter = (props: {
     <trace name={`${props.capInHf}_IN`} from={`${props.capInHf}.pin1`} to={props.inNet} />
     <trace name={`${props.ic}_IN`} from={`${props.ic}.IN`} to={props.inNet} />
     <trace name={`${props.ic}_EN`} from={`${props.ic}.EN`} to={props.inNet} />
-    <trace name={`${props.capIn}_GND`} from={`${props.capIn}.pin2`} to={NET.GND}   width="0.4mm" />
-    <trace name={`${props.capInHf}_GND`} from={`${props.capInHf}.pin2`} to={NET.GND}   width="0.4mm" />
-    <trace name={`${props.ic}_GND`} from={`${props.ic}.GND`} to={NET.GND}   width="0.4mm" />
+    <trace name={`${props.capIn}_GND`} from={`${props.capIn}.pin2`} to={NET.GND}   width="0.6mm" />
+    <trace name={`${props.capInHf}_GND`} from={`${props.capInHf}.pin2`} to={NET.GND}   width="0.6mm" />
+    <trace name={`${props.ic}_GND`} from={`${props.ic}.GND`} to={NET.GND}   width="0.6mm" />
 
     {/* 开关节点 + 自举 */}
     <trace name={`${props.ic}_SW`} from={`${props.ic}.SW`} to={NET.SW} />
@@ -98,18 +98,18 @@ export const BuckConverter = (props: {
     <trace name={`${props.ic}_BS`} from={`${props.ic}.BS`} to={`${props.capBs}.pin1`} />
 
     {/* 反馈分压 */}
-    <trace name={`${props.rFbTop}_OUT`} from={`${props.rFbTop}.pin1`} to={NET.V5}   width="0.5mm" />
+    <trace name={`${props.rFbTop}_OUT`} from={`${props.rFbTop}.pin1`} to={NET.V5}   width="0.8mm" />
     <trace name={`${props.rFbBottom}_FB`} from={`${props.rFbBottom}.pin1`} to={NET.FB} />
     <trace name={`${props.rFbTop}_FB`} from={`${props.rFbTop}.pin2`} to={NET.FB} />
     <trace name={`${props.ic}_FB`} from={`${props.ic}.FB`} to={NET.FB} />
-    <trace name={`${props.rFbBottom}_GND`} from={`${props.rFbBottom}.pin2`} to={NET.GND}   width="0.4mm" />
+    <trace name={`${props.rFbBottom}_GND`} from={`${props.rFbBottom}.pin2`} to={NET.GND}   width="0.6mm" />
 
     {/* 输出侧 */}
-    <trace name={`${props.ind}_OUT`} from={`${props.ind}.pin2`} to={NET.V5}   width="0.5mm" />
-    <trace name={`${props.capOut}_OUT`} from={`${props.capOut}.pin1`} to={NET.V5}   width="0.5mm" />
-    <trace name={`${props.capOutHf}_OUT`} from={`${props.capOutHf}.pin1`} to={NET.V5}   width="0.5mm" />
-    <trace name={`${props.capOut}_GND`} from={`${props.capOut}.pin2`} to={NET.GND}   width="0.4mm" />
-    <trace name={`${props.capOutHf}_GND`} from={`${props.capOutHf}.pin2`} to={NET.GND}   width="0.4mm" />
+    <trace name={`${props.ind}_OUT`} from={`${props.ind}.pin2`} to={NET.V5}   width="0.8mm" />
+    <trace name={`${props.capOut}_OUT`} from={`${props.capOut}.pin1`} to={NET.V5}   width="0.8mm" />
+    <trace name={`${props.capOutHf}_OUT`} from={`${props.capOutHf}.pin1`} to={NET.V5}   width="0.8mm" />
+    <trace name={`${props.capOut}_GND`} from={`${props.capOut}.pin2`} to={NET.GND}   width="0.6mm" />
+    <trace name={`${props.capOutHf}_GND`} from={`${props.capOutHf}.pin2`} to={NET.GND}   width="0.6mm" />
   </>
 )
 
@@ -153,10 +153,10 @@ export const LdoRegulator = (props: {
     <trace name={`${props.capIn}_IN`} from={`${props.capIn}.pin1`} to={props.inNet} />
     <trace name={`${props.ic}_IN`} from={`${props.ic}.IN`} to={props.inNet} />
     <trace name={`${props.ic}_EN`} from={`${props.ic}.EN`} to={props.inNet} />
-    <trace name={`${props.capIn}_GND`} from={`${props.capIn}.pin2`} to={NET.GND}   width="0.4mm" />
-    <trace name={`${props.ic}_GND`} from={`${props.ic}.GND`} to={NET.GND}   width="0.4mm" />
+    <trace name={`${props.capIn}_GND`} from={`${props.capIn}.pin2`} to={NET.GND}   width="0.6mm" />
+    <trace name={`${props.ic}_GND`} from={`${props.ic}.GND`} to={NET.GND}   width="0.6mm" />
     <trace name={`${props.ic}_OUT`} from={`${props.ic}.OUT`} to={props.outNet} />
     <trace name={`${props.capOut}_OUT`} from={`${props.capOut}.pin1`} to={props.outNet} />
-    <trace name={`${props.capOut}_GND`} from={`${props.capOut}.pin2`} to={NET.GND}   width="0.4mm" />
+    <trace name={`${props.capOut}_GND`} from={`${props.capOut}.pin2`} to={NET.GND}   width="0.6mm" />
   </>
 )
