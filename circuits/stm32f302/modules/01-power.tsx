@@ -56,12 +56,17 @@ export const PowerSection = () => (
       schX={-12}
       schY={8}
     />
+    {/* 12V 输入总开关（SS-12F44-G5, C136718）
+        标注电源方向是必要的：COM 取电、T1 把电送出去。
+        不标的话 ERC 会认为 net.V12 上没有任何供电来源 ——
+        因为开关是无源件，ERC 不会自己把"电源"顺着开关传下去。 */}
     <switch
       name="SW1"
       footprint="jlcpcb:C136718"
       manufacturerPartNumber="SS-12F44-G5"
       supplierPartNumbers={{ jlcpcb: ["C136718"] }}
       pinLabels={{ pin1: "T1", pin2: "COM", pin3: "T2", pin4: "MP1", pin5: "MP2" }}
+      pinAttributes={{ COM: { requiresPower: true }, T1: { providesPower: true } }}
       pcbX={-26}
       pcbY={-6}
       schX={-12}

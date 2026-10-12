@@ -61,6 +61,43 @@ export PATH="$HOME/Desktop/tscircuit/.tooling/bun/bin:$PATH"
 
 其它可用检查：`./tsci-run check netlist|placement|shorts|pcb-style|schematic-placement main.tsx`
 
+### 两个必跑的验收脚本
+
+```bash
+# 1) 模块验收：元件数 / 丢件 / 零焊盘 / 几何冲突 / 页外 / 位号约定
+./tsci-run export circuits/stm32f302/main.tsx -f circuit-json -o ../../out/stm32f302/main.json
+python3 scripts/check-modules.py
+
+# 2) ERC 电气规则检查：短路 / 重复网络 / 悬空引脚 / 必连未连 / 供电无源 / 接地非地 / 多驱动
+python3 scripts/erc.py
+```
+
+### ERC 的做法（`scripts/erc.py`）
+
+不做"顺着 trace 追"——那是画法，不是电气事实。tscircuit 给每个 `source_port`
+打了 `subcircuit_connectivity_map_key`，**同 key 的引脚就是同一个电气网络**，
+用它建网表才是权威连通性。
+
+| 检查 | 含义 |
+|------|------|
+| A 电源短路 | 两个不同网络名被并成同一个连通组 |
+| A2 电地短接 | GND 网络上出现 `provides_power` 的引脚 |
+| B 重复网络 | 同一个网络名分裂成多个互不相连的组 |
+| C 悬空引脚 | 孤立单脚网络 + 完全未接入的引脚（带"刻意留空"白名单） |
+| D 必连未连 | `must_be_connected` 的引脚网络里只有自己 |
+| E 供电无源 | `requires_power` 的网络里没有任何 `provides_power` |
+| F 接地非地 | `requires_ground` 的引脚不在 GND 网络上 |
+| G 多驱动 | 同一网络上有两个以上 IC 在供电（可能对顶） |
+
+> ⚠️ **一个会让 ERC 误报的坑**：未接任何线的引脚，其 `connectivity_map_key` 是
+> **`None`**。如果把 `None` 当成一个网络名分组，28 个毫不相干的空脚会被并成
+> 一个"28 脚网络"，看起来像把所有未用脚短接在一起。实测这些引脚之间
+> `source_trace` 数 = 0，电气上互不相连 —— **必须把 `None` 单独处理**。
+
+> 另一个坑：ERC 不会把"电源"顺着无源件传下去。12V 经拨动开关送到 `net.V12`，
+> 但开关是无源件，所以必须给开关标 `COM: requiresPower` / `T1: providesPower`，
+> 否则 E 检查会误报"net.V12 无人供电"。
+
 ---
 
 ## 架构
