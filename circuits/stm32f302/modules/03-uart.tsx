@@ -33,8 +33,8 @@ const PORTS = [
   { ref: "J4", tx: NET.UART3_TX, rx: NET.UART3_RX, pcbX: 12, schX: 10 },
 ] as const
 
-export const UartSection = () => (
-  <group name="UART" schSheetName={SHEET}>
+export const UartSection = (props: { pcbX?: number; pcbY?: number }) => (
+  <group name="UART" schSheetName={SHEET} pcbPack={false} pcbX={props.pcbX} pcbY={props.pcbY}>
     {PORTS.map((p) => (
       <Fragment key={p.ref}>
         <Ph20Port ref={p.ref} pinCount={4} pinLabels={PINS}

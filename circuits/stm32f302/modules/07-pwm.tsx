@@ -79,8 +79,8 @@ const GND_PINS = { pin1: "GND1", pin2: "GND2", pin3: "GND3", pin4: "GND4", pin5:
 
 const PWM_NETS = [NET.PWM1, NET.PWM2, NET.PWM3, NET.PWM4, NET.PWM5, NET.PWM6] as const
 
-export const PwmSection = () => (
-  <group name="PWM" schSheetName={SHEET}>
+export const PwmSection = (props: { pcbX?: number; pcbY?: number }) => (
+  <group name="PWM" schSheetName={SHEET} pcbPack={false} pcbX={props.pcbX} pcbY={props.pcbY}>
     <Header1x6 ref="J8" pinLabels={PWM_PINS} pcbY={ROW_PITCH} schY={7} />
     <Header1x6 ref="J9" pinLabels={P5V_PINS} powerPins={["P5V_1"]} pcbY={0} schY={0} />
     <Header1x6 ref="J10" pinLabels={GND_PINS} groundPins={["GND1"]} pcbY={-ROW_PITCH} schY={-7} />

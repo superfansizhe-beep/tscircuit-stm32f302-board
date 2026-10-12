@@ -55,8 +55,8 @@ const GPIO_SIGNALS = [
   "GPB0", "GPB1", "GPB2", "GPB3", "GPB4", "GPB5", "GPB6", "GPB7",
 ] as const
 
-export const SpiSection = () => (
-  <group name="SPI" schSheetName={SHEET}>
+export const SpiSection = (props: { pcbX?: number; pcbY?: number }) => (
+  <group name="SPI" schSheetName={SHEET} pcbPack={false} pcbX={props.pcbX} pcbY={props.pcbY}>
     {/* ══ SPI2 → MCP23S17 ═══════════════════════════════════════════════ */}
     <chip
       name="U6"

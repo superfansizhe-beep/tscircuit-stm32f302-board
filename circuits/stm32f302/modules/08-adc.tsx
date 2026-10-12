@@ -59,8 +59,8 @@ const CHANNELS = [
   },
 ] as const
 
-export const AdcSection = () => (
-  <group name="ADC" schSheetName={SHEET}>
+export const AdcSection = (props: { pcbX?: number; pcbY?: number }) => (
+  <group name="ADC" schSheetName={SHEET} pcbPack={false} pcbX={props.pcbX} pcbY={props.pcbY}>
     {CHANNELS.map((ch) => (
       <VoltageDivider
         key={ch.top}

@@ -38,8 +38,8 @@ const CHANNELS = [
   { led: "LED3", res: "R38", gpio: NET.GPIO_LED3, pcbY: -10, schY: -4 },
 ] as const
 
-export const LedSection = () => (
-  <group name="LED" schSheetName={SHEET}>
+export const LedSection = (props: { pcbX?: number; pcbY?: number }) => (
+  <group name="LED" schSheetName={SHEET} pcbPack={false} pcbX={props.pcbX} pcbY={props.pcbY}>
     {CHANNELS.map((ch) => (
       <LedIndicator
         key={ch.led}

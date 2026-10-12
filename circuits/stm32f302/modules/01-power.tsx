@@ -41,8 +41,8 @@ import { NET } from "../nets"
 
 const SHEET: (typeof PAGES)[number]["name"] = "power"
 
-export const PowerSection = () => (
-  <group name="PWR" schSheetName={SHEET}>
+export const PowerSection = (props: { pcbX?: number; pcbY?: number }) => (
+  <group name="PWR" schSheetName={SHEET} pcbPack={false} pcbX={props.pcbX} pcbY={props.pcbY}>
     {/* ══ 12V 输入：XT30 座 + 总开关 ═══════════════════════════════════ */}
     <connector
       name="J1"
@@ -67,7 +67,7 @@ export const PowerSection = () => (
       supplierPartNumbers={{ jlcpcb: ["C136718"] }}
       pinLabels={{ pin1: "T1", pin2: "COM", pin3: "T2", pin4: "MP1", pin5: "MP2" }}
       pinAttributes={{ COM: { requiresPower: true }, T1: { providesPower: true } }}
-      pcbX={-26}
+      pcbX={-24.5}
       pcbY={-6}
       schX={-12}
       schY={2}

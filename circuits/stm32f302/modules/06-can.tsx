@@ -38,8 +38,8 @@ import { Ph20Port } from "../parts/connectors"
 
 const SHEET: (typeof PAGES)[number]["name"] = "can"
 
-export const CanSection = () => (
-  <group name="CAN" schSheetName={SHEET}>
+export const CanSection = (props: { pcbX?: number; pcbY?: number }) => (
+  <group name="CAN" schSheetName={SHEET} pcbPack={false} pcbX={props.pcbX} pcbY={props.pcbY}>
     <chip
       name="U7"
       footprint="jlcpcb:C73651"

@@ -40,8 +40,8 @@ import { I2cPullupPair } from "../parts/passives"
 
 const SHEET: (typeof PAGES)[number]["name"] = "i2c"
 
-export const I2cSection = () => (
-  <group name="I2C" schSheetName={SHEET}>
+export const I2cSection = (props: { pcbX?: number; pcbY?: number }) => (
+  <group name="I2C" schSheetName={SHEET} pcbPack={false} pcbX={props.pcbX} pcbY={props.pcbY}>
     {/* ══ 第 1 路：AT24C64D EEPROM（地址 0x50）══════════════════════════ */}
     <chip name="U4" footprint="jlcpcb:C6487"
       manufacturerPartNumber="AT24C64D-SSHM-T"
