@@ -60,6 +60,7 @@ export const PowerSection = () => (
       name="SW1"
       footprint="jlcpcb:C136718"
       manufacturerPartNumber="SS-12F44-G5"
+      supplierPartNumbers={{ jlcpcb: ["C136718"] }}
       pinLabels={{ pin1: "T1", pin2: "COM", pin3: "T2", pin4: "MP1", pin5: "MP2" }}
       pcbX={-26}
       pcbY={-6}

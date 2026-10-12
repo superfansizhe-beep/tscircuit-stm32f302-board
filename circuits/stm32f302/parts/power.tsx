@@ -12,7 +12,7 @@
  * ⚠️ RY8411 输出是**可调**的（反馈基准 0.8V），必须外接分压：
  *      Vout = 0.8 × (1 + R上/R下)。取 100k/19.1k → 4.99V。
  */
-import { R0603, C0603, C0805 } from "./codes"
+import { R0603, C0603, C0805, partProps } from "./codes"
 import { NET } from "../nets"
 
 /** 降压子电路：RY8411 + 电感 + 自举电容 + 反馈分压 + 输入/输出电容 */
@@ -61,25 +61,25 @@ export const BuckConverter = (props: {
       schY={props.schY}
     />
     <capacitor name={props.capIn} capacitance="22uF" footprint="0805"
-      supplierPartNumbers={{ jlcpcb: [C0805["22uF"]] }}
+      {...partProps(C0805["22uF"])}
       pcbX={props.pcbX - 8} pcbY={props.pcbY + 6} schX={props.schX - 10} schY={props.schY - 5} />
     <capacitor name={props.capInHf} capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [C0603["100nF"]] }}
+      {...partProps(C0603["100nF"])}
       pcbX={props.pcbX - 4} pcbY={props.pcbY + 6} schX={props.schX - 6} schY={props.schY - 5} />
     <capacitor name={props.capBs} capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [C0603["100nF"]] }}
+      {...partProps(C0603["100nF"])}
       pcbX={props.pcbX} pcbY={props.pcbY + 6} schX={props.schX - 2} schY={props.schY - 5} />
     <resistor name={props.rFbTop} resistance="100k" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [R0603["100k"]] }}
+      {...partProps(R0603["100k"])}
       pcbX={props.pcbX + 4} pcbY={props.pcbY + 6} schX={props.schX + 2} schY={props.schY - 5} />
     <resistor name={props.rFbBottom} resistance="19.1k" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [R0603["19.1k"]] }}
+      {...partProps(R0603["19.1k"])}
       pcbX={props.pcbX + 8} pcbY={props.pcbY + 6} schX={props.schX + 6} schY={props.schY - 5} />
     <capacitor name={props.capOut} capacitance="22uF" footprint="0805"
-      supplierPartNumbers={{ jlcpcb: [C0805["22uF"]] }}
+      {...partProps(C0805["22uF"])}
       pcbX={props.pcbX + 12} pcbY={props.pcbY} schX={props.schX + 11} schY={props.schY - 5} />
     <capacitor name={props.capOutHf} capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [C0603["100nF"]] }}
+      {...partProps(C0603["100nF"])}
       pcbX={props.pcbX + 12} pcbY={props.pcbY + 3.5} schX={props.schX + 11} schY={props.schY - 1.5} />
 
     {/* 输入侧 */}
@@ -144,10 +144,10 @@ export const LdoRegulator = (props: {
       schY={props.schY}
     />
     <capacitor name={props.capIn} capacitance="1uF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [C0603["1uF"]] }}
+      {...partProps(C0603["1uF"])}
       pcbX={props.pcbX - 4} pcbY={props.pcbY - 6} schX={props.schX - 6} schY={props.schY} />
     <capacitor name={props.capOut} capacitance="1uF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [C0603["1uF"]] }}
+      {...partProps(C0603["1uF"])}
       pcbX={props.pcbX + 6} pcbY={props.pcbY - 6} schX={props.schX + 6} schY={props.schY} />
 
     <trace name={`${props.capIn}_IN`} from={`${props.capIn}.pin1`} to={props.inNet} />

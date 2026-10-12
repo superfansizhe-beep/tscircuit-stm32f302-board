@@ -33,7 +33,7 @@
  */
 import { PAGES } from "../pages"
 import { NET } from "../nets"
-import { R0603, C0603 } from "../parts/codes"
+import { R0603, C0603, partProps } from "../parts/codes"
 import { Ph20Port } from "../parts/connectors"
 
 const SHEET: (typeof PAGES)[number]["name"] = "can"
@@ -58,13 +58,13 @@ export const CanSection = () => (
     />
 
     <resistor name="R28" resistance="120" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [R0603["120"]] }}
+      {...partProps(R0603["120"])}
       pcbX={6} pcbY={4} schX={8} schY={6} />
     <resistor name="R29" resistance="10k" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [R0603["10k"]] }}
+      {...partProps(R0603["10k"])}
       pcbX={6} pcbY={0} schX={8} schY={2} />
     <capacitor name="C34" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [C0603["100nF"]] }}
+      {...partProps(C0603["100nF"])}
       pcbX={6} pcbY={-4} schX={8} schY={-2} />
 
     <Ph20Port ref="J7" pinCount={3} pinLabels={{ pin1: "CANH", pin2: "CANL", pin3: "GND" }}

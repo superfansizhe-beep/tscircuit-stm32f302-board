@@ -32,6 +32,7 @@
  */
 import { PAGES } from "../pages"
 import { NET } from "../nets"
+import { R0603, C0603, FB_0603, partProps } from "../parts/codes"
 
 const SHEET: (typeof PAGES)[number]["name"] = "mcu"
 
@@ -129,53 +130,56 @@ export const McuSection = () => (
       supplierPartNumbers={{ jlcpcb: ["C400090"] }}
       pcbX={0} pcbY={12} schX={-6} schY={7} />
     <capacitor name="C18" capacitance="12pF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C107034"] }}
+      {...partProps(C0603["12pF"])}
       pcbX={-4.5} pcbY={12} schX={-10} schY={7} />
     <capacitor name="C19" capacitance="12pF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C107034"] }}
+      {...partProps(C0603["12pF"])}
       pcbX={4.5} pcbY={12} schX={-2} schY={7} />
 
     {/* ══ VDD 去耦 ══════════════════════════════════════════════════════ */}
     <capacitor name="C10" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C14663"] }} pcbX={-10} pcbY={9.5} schX={2} schY={7} />
+      {...partProps(C0603["100nF"])} pcbX={-10} pcbY={9.5} schX={2} schY={7} />
     <capacitor name="C11" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C14663"] }} pcbX={10} pcbY={9.5} schX={6} schY={7} />
+      {...partProps(C0603["100nF"])} pcbX={10} pcbY={9.5} schX={6} schY={7} />
     <capacitor name="C12" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C14663"] }} pcbX={-10} pcbY={-9.5} schX={10} schY={7} />
+      {...partProps(C0603["100nF"])} pcbX={-10} pcbY={-9.5} schX={10} schY={7} />
     <capacitor name="C13" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C14663"] }} pcbX={10} pcbY={-9.5} schX={-10} schY={-3} />
+      {...partProps(C0603["100nF"])} pcbX={10} pcbY={-9.5} schX={-10} schY={-3} />
     <capacitor name="C14" capacitance="4.7uF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C19666"] }} pcbX={-10} pcbY={0} schX={-6} schY={3} />
+      {...partProps(C0603["4.7uF"])} pcbX={-10} pcbY={0} schX={-6} schY={3} />
 
     {/* ══ VBAT ══════════════════════════════════════════════════════════ */}
     <capacitor name="C17" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C14663"] }} pcbX={10} pcbY={0} schX={10} schY={3} />
+      {...partProps(C0603["100nF"])} pcbX={10} pcbY={0} schX={10} schY={3} />
 
     {/* ══ VDDA 隔离与滤波 ═══════════════════════════════════════════════ */}
     <chip name="FB1" footprint="jlcpcb:C19330"
-      manufacturerPartNumber="BLM18AG601SN1D"
-      supplierPartNumbers={{ jlcpcb: ["C19330"] }}
+      {...partProps(FB_0603)}
       pinLabels={{ pin1: "IN", pin2: "OUT" }}
       pinAttributes={{ IN: { requiresPower: true }, OUT: { providesPower: true } }}
       pcbX={-14} pcbY={0} schX={-2} schY={3} />
     <capacitor name="C15" capacitance="1uF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C15849"] }} pcbX={-14} pcbY={5} schX={2} schY={3} />
+      {...partProps(C0603["1uF"])} pcbX={-14} pcbY={5} schX={2} schY={3} />
     <capacitor name="C16" capacitance="10nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C1589"] }} pcbX={-14} pcbY={-5} schX={6} schY={3} />
+      {...partProps(C0603["10nF"])} pcbX={-14} pcbY={-5} schX={6} schY={3} />
 
     {/* ══ RESET / BOOT 阻容与按键 ═══════════════════════════════════════ */}
     <resistor name="R10" resistance="10k" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C25804"] }} pcbX={-14} pcbY={12} schX={-6} schY={-3} />
+      {...partProps(R0603["10k"])} pcbX={-14} pcbY={12} schX={-6} schY={-3} />
     <capacitor name="C20" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C14663"] }} pcbX={-19} pcbY={12} schX={-2} schY={-3} />
+      {...partProps(C0603["100nF"])} pcbX={-19} pcbY={12} schX={-2} schY={-3} />
     <resistor name="R11" resistance="10k" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C25804"] }} pcbX={-19} pcbY={-9.5} schX={2} schY={-3} />
+      {...partProps(R0603["10k"])} pcbX={-19} pcbY={-9.5} schX={2} schY={-3} />
     <resistor name="R12" resistance="10k" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: ["C25804"] }} pcbX={-14} pcbY={-9.5} schX={6} schY={-3} />
-    <switch name="SW2" footprint="jlcpcb:C318884" manufacturerPartNumber="TS-1187A-B-A-B"
+      {...partProps(R0603["10k"])} pcbX={-14} pcbY={-9.5} schX={6} schY={-3} />
+    <switch name="SW2" footprint="jlcpcb:C318884"
+      manufacturerPartNumber="TS-1187A-B-A-B"
+      supplierPartNumbers={{ jlcpcb: ["C318884"] }}
       pinLabels={{ pin1: "A1", pin2: "A2", pin3: "B1", pin4: "B2" }}
       pcbX={-10} pcbY={-16} schX={-10} schY={-7} />
-    <switch name="SW3" footprint="jlcpcb:C318884" manufacturerPartNumber="TS-1187A-B-A-B"
+    <switch name="SW3" footprint="jlcpcb:C318884"
+      manufacturerPartNumber="TS-1187A-B-A-B"
+      supplierPartNumbers={{ jlcpcb: ["C318884"] }}
       pinLabels={{ pin1: "A1", pin2: "A2", pin3: "B1", pin4: "B2" }}
       pcbX={0} pcbY={-16} schX={-6} schY={-7} />
 

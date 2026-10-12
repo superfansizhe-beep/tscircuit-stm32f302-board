@@ -36,7 +36,7 @@
 import { Fragment } from "react"
 import { PAGES } from "../pages"
 import { NET } from "../nets"
-import { R0603, C0603 } from "../parts/codes"
+import { R0603, C0603, partProps } from "../parts/codes"
 import { Ph20Port } from "../parts/connectors"
 
 const SHEET: (typeof PAGES)[number]["name"] = "spi"
@@ -91,17 +91,17 @@ export const SpiSection = () => (
     />
 
     <capacitor name="C32" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [C0603["100nF"]] }}
+      {...partProps(C0603["100nF"])}
       pcbX={9} pcbY={6} schX={-11} schY={-1} />
     <capacitor name="C33" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [C0603["100nF"]] }}
+      {...partProps(C0603["100nF"])}
       pcbX={9} pcbY={2} schX={-8} schY={-1} />
 
     <resistor name="R26" resistance="10k" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [R0603["10k"]] }}
+      {...partProps(R0603["10k"])}
       pcbX={-9} pcbY={6} schX={-11} schY={5} />
     <resistor name="R27" resistance="10k" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [R0603["10k"]] }}
+      {...partProps(R0603["10k"])}
       pcbX={-9} pcbY={2} schX={-8} schY={5} />
 
     {/* ══ SPI3 → PH2.0 引出 ═════════════════════════════════════════════ */}

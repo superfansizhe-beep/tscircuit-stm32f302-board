@@ -2,15 +2,16 @@
  * 连接器子电路 —— PH2.0 接口
  *
  * 为什么封装：全板一共 **7 个** PH2.0 接口（3 路 UART + 1 路 I2C + 1 路 SPI + 1 路 CAN），
- *   每个都要写封装、料号、引脚标签、电源/地属性，重复度极高且极易写漏属性。
+ *   每个都要写封装、料号、厂商型号、引脚标签、电源/地属性，重复度极高且极易写漏属性。
  *
- * 料号按针数查表（后缀 ZZ = 直插通孔立式，全板统一）：
- *   1x3 → C5359600   1x4 → C5359601   1x6 → C5359603
+ * 料号按针数查表（后缀 ZZ = 直插通孔立式，全板统一）
  */
+import { partProps } from "./codes"
+
 export const PH20 = {
-  3: "C5359600", // WAFER-PH2.0-3PZZ
-  4: "C5359601", // WAFER-PH2.0-4PZZ
-  6: "C5359603", // WAFER-PH2.0-6PZZ
+  3: { jlc: "C5359600", mpn: "WAFER-PH2.0-3PZZ" },
+  4: { jlc: "C5359601", mpn: "WAFER-PH2.0-4PZZ" },
+  6: { jlc: "C5359603", mpn: "WAFER-PH2.0-6PZZ" },
 } as const
 
 export const Ph20Port = (props: {
@@ -31,9 +32,8 @@ export const Ph20Port = (props: {
   return (
     <connector
       name={props.ref}
-      footprint={`jlcpcb:${PH20[props.pinCount]}`}
-      manufacturerPartNumber={`WAFER-PH2.0-${props.pinCount}PZZ`}
-      supplierPartNumbers={{ jlcpcb: [PH20[props.pinCount]] }}
+      footprint={`jlcpcb:${PH20[props.pinCount].jlc}`}
+      {...partProps(PH20[props.pinCount])}
       pinLabels={props.pinLabels}
       pinAttributes={attrs}
       pcbX={props.pcbX}

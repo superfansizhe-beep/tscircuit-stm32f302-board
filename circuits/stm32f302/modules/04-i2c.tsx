@@ -34,7 +34,7 @@
  */
 import { PAGES } from "../pages"
 import { NET } from "../nets"
-import { C0603 } from "../parts/codes"
+import { C0603, partProps } from "../parts/codes"
 import { Ph20Port } from "../parts/connectors"
 import { I2cPullupPair } from "../parts/passives"
 
@@ -54,7 +54,7 @@ export const I2cSection = () => (
       }}
       pcbX={0} pcbY={7} schX={0} schY={6} />
     <capacitor name="C30" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [C0603["100nF"]] }}
+      {...partProps(C0603["100nF"])}
       pcbX={-6} pcbY={7} schX={-7} schY={8} />
 
     {/* ══ 第 2 路：TMP1075 温度传感器（地址 0x48）════════════════════════ */}
@@ -69,7 +69,7 @@ export const I2cSection = () => (
       }}
       pcbX={0} pcbY={-3} schX={0} schY={-4} />
     <capacitor name="C31" capacitance="100nF" footprint="0603"
-      supplierPartNumbers={{ jlcpcb: [C0603["100nF"]] }}
+      {...partProps(C0603["100nF"])}
       pcbX={-6} pcbY={-3} schX={-7} schY={-6} />
 
     {/* ══ 第 3 路：PH2.0 对外引出 ════════════════════════════════════════ */}
