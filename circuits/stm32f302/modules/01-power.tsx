@@ -52,10 +52,10 @@ export const PowerSection = (props: { pcbX?: number; pcbY?: number }) => (
       pinLabels={{ pin1: "VIN", pin2: "GND" }}
       pinAttributes={{ VIN: { providesPower: true }, GND: { requiresGround: true } }}
       pcbX={-26}
-      pcbY={6}
+      pcbY={2.5}
       schX={-12}
       schY={8}
-    />
+     pcbRotation={-90} />
     {/* 12V 输入总开关（SS-12F44-G5, C136718）
         标注电源方向是必要的：COM 取电、T1 把电送出去。
         不标的话 ERC 会认为 net.V12 上没有任何供电来源 ——
@@ -68,7 +68,7 @@ export const PowerSection = (props: { pcbX?: number; pcbY?: number }) => (
       pinLabels={{ pin1: "T1", pin2: "COM", pin3: "T2", pin4: "MP1", pin5: "MP2" }}
       pinAttributes={{ COM: { requiresPower: true }, T1: { providesPower: true } }}
       pcbX={-24.5}
-      pcbY={-6}
+      pcbY={-8}
       schX={-12}
       schY={2}
     />

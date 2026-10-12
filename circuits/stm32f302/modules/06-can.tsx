@@ -68,7 +68,8 @@ export const CanSection = (props: { pcbX?: number; pcbY?: number }) => (
       pcbX={6} pcbY={-4} schX={8} schY={-2} />
 
     <Ph20Port ref="J7" pinCount={3} pinLabels={{ pin1: "CANH", pin2: "CANL", pin3: "GND" }}
-      groundPins={["GND"]} pcbX={-12} pcbY={0} schX={-10} schY={2} />
+      groundPins={["GND"]} pcbX={-12} pcbY={0} schX={-10} schY={2}
+        insertionDirection="from_above" />
 
     {/* 收发器供电与地 */}
     <trace name="U7_VCC" from="U7.VCC" to={NET.V3_3} />

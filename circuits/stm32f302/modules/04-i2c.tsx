@@ -76,7 +76,8 @@ export const I2cSection = (props: { pcbX?: number; pcbY?: number }) => (
     <Ph20Port ref="J5" pinCount={4}
       pinLabels={{ pin1: "3V3", pin2: "GND", pin3: "SCL", pin4: "SDA" }}
       powerPins={["3V3"]} groundPins={["GND"]}
-      pcbX={-13} pcbY={0} schX={-11} schY={0} />
+      pcbX={-13} pcbY={0} schX={-11} schY={0}
+        insertionDirection="from_above" />
 
     {/* ══ 三组上拉 ══════════════════════════════════════════════════════ */}
     <I2cPullupPair scl="R20" sda="R21" resistance="4.7k" supply={NET.V3_3}

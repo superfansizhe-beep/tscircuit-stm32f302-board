@@ -52,9 +52,12 @@ INTENTIONAL_OPEN = {
     "SW3.A2": "与 A1 内部相通",
     "SW3.B2": "与 B1 内部相通",
     # SWD 标准 10 脚里的保留位
-    "J11.pin6": "SWO，本板不复用",
-    "J11.pin7": "KEY（防呆位），本来就无引脚",
-    "J11.pin8": "NC",
+    # J11 现在给了语义化 pinLabels（原来只靠封装提供 pin1..pin10）。
+    # 之所以必须给 pinLabels：夹一个 <footprint> 子元素声明插入方向时，
+    # 那个子元素会替换掉字符串封装 —— 没有 pinLabels 的元件会变成 0 个 port。
+    "J11.SWO": "SWO，本板不复用",
+    "J11.KEY": "KEY（防呆位），本来就无引脚",
+    "J11.NC": "NC",
 }
 
 

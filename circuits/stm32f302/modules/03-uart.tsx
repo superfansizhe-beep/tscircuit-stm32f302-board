@@ -39,7 +39,8 @@ export const UartSection = (props: { pcbX?: number; pcbY?: number }) => (
       <Fragment key={p.ref}>
         <Ph20Port ref={p.ref} pinCount={4} pinLabels={PINS}
           powerPins={["3V3"]} groundPins={["GND"]}
-          pcbX={p.pcbX} pcbY={0} schX={p.schX} schY={0} />
+          pcbX={p.pcbX} pcbY={0} schX={p.schX} schY={0}
+        insertionDirection="from_above" />
         <trace name={`${p.ref}_VCC`} from={`${p.ref}.3V3`} to={NET.V3_3} />
         <trace name={`${p.ref}_GND`} from={`${p.ref}.GND`} to={NET.GND} />
         <trace name={`${p.ref}_TX`} from={`${p.ref}.TX`} to={p.tx} />

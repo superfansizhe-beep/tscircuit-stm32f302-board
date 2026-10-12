@@ -108,7 +108,8 @@ export const SpiSection = (props: { pcbX?: number; pcbY?: number }) => (
     <Ph20Port ref="J6" pinCount={6}
       pinLabels={{ pin1: "3V3", pin2: "GND", pin3: "SCK", pin4: "MISO", pin5: "MOSI", pin6: "CS" }}
       powerPins={["3V3"]} groundPins={["GND"]}
-      pcbX={-18} pcbY={8} schX={-11} schY={8} />
+      pcbX={-18} pcbY={8} schX={-11} schY={8}
+        insertionDirection="from_above" />
 
     {/* ══ 接线：U6 供电与去耦 ═══════════════════════════════════════════ */}
     <trace name="U6_VDD" from="U6.VDD" to={NET.V3_3} />

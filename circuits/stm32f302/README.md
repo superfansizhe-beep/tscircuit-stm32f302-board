@@ -148,6 +148,43 @@ python3 scripts/erc.py
 > 若网络也叫 `LED1/2/3`，会报 `Multiple immediate children found with name "LED1"`。
 > 所以网络改名为 `net.GPIO_LED1/2/3`。
 
+### ⚠️ 第二条同样重要：不打锚点，tscircuit 会自动「打包」布局
+
+实测（core 0.0.2119）：**模块 `<group>` 不给 `pcbX/pcbY` 的话，
+tscircuit 会把 position_mode 设成 `"packed"`，完全忽略模块里写的所有坐标。**
+
+| 写法 | 结果 |
+|------|------|
+| 两个 group 都不带位置 | ❌ `packed`，模块内部坐标被打乱 |
+| **给 group 显式 `pcbX/pcbY`** | ✅ `relative_to_group_anchor`，坐标精确生效 |
+| board 上写 `pcbPack={false}` | ❌ 无效 |
+| group 上写 `pcbPack={false}` | ⚠️ 单独导出有效，但**只要还有别的 group 没锚点，整体仍会被打包** |
+
+**所以每个模块都必须有锚点**（哪怕就是 0,0）。九个模块都有 `pcbX/pcbY` 入参，
+`main.tsx` 用一张 `LAYOUT` 表统一给坐标。
+
+诊断办法：单独导出某个模块坐标正常，一放进整板就变 `packed` ——
+这个对比能立刻定位到「是 board 在打包它的子 group」，而不是模块自身的问题。
+
+### ⚠️ 第三条：给 `<connector>` 加 `<footprint>` 子元素会顶掉引脚
+
+立式连接器（PH2.0 的 ZZ 后缀、SWD 排针）线缆是**从板子上方垂直插入**的，
+不需要朝向板边。但 tscircuit 会从 footprint 的 `cable_insertion_center` 去"推断"
+插拔方向，而那个推断对这类封装是错的（实测永远是 x−，且不随旋转翻转），
+于是误报 `pcb_connector_not_in_accessible_orientation_warning`。
+
+正确做法是如实声明：
+
+```tsx
+<connector name="J7" footprint="jlcpcb:C5359600" pinLabels={{...}}>
+  <footprint insertionDirection="from_above" />
+</connector>
+```
+
+**但有个坑**：这个子元素会**替换掉字符串形式的封装**。所以元件**必须同时给
+`pinLabels`** —— 否则引脚全没了。实测没有 `pinLabels` 的 J11 变成 **0 个 port**，
+7 条接线全断，报 `source_trace_not_connected_error`。
+
 ### 跨页连接是怎么成立的
 
 一条网络的两端分别写在两个模块里，两边都引用 `nets.ts` 里的同一个常量，即自动连通 ——

@@ -184,10 +184,31 @@ export const McuSection = (props: { pcbX?: number; pcbY?: number }) => (
       pcbX={-5} pcbY={-13.5} schX={-6} schY={-7} />
 
     {/* ══ SWD 调试口 ════════════════════════════════════════════════════ */}
+    {/* SWD 调试口。立式 2×5 排针 —— 线缆从**板子上方垂直**插入，
+        ⚠️ pinLabels 是必需的：引脚若只靠封装提供，一旦夹一个 <footprint> 子元素
+           去声明插入方向，那个子元素会替换掉字符串封装、把引脚全部顶掉。
+           实测过：不加 pinLabels 的 J11 会变成 0 个 port，7 条接线全断。
+           地脚写 GND1/2/3 而不是都叫 GND，避免同名引脚歧义。
+        所以声明 insertionDirection="from_above" 如实表达插拔方式。
+        不声明的话 tscircuit 会从 footprint 的 cable_insertion_center 去"推断"，
+        推断结果对这类立式排针是错的，会误报"连接器朝向不可达"。 */}
     <connector name="J11" footprint="jlcpcb:C42431818"
       manufacturerPartNumber="PZ2.54-2X5P-H25"
       supplierPartNumbers={{ jlcpcb: ["C42431818"] }}
-      pcbX={10.5} pcbY={0} schX={10} schY={-3}  pcbRotation={90} />
+      pinLabels={{
+        pin1: "VCC", pin2: "SWDIO", pin3: "GND1", pin4: "SWCLK", pin5: "GND2",
+        pin6: "SWO", pin7: "KEY", pin8: "NC", pin9: "GND3", pin10: "NRST",
+      }}
+      pinAttributes={{
+        VCC: { providesPower: true },
+        GND1: { requiresGround: true },
+        GND2: { requiresGround: true },
+        GND3: { requiresGround: true },
+      }}
+      pcbX={11} pcbY={0} pcbRotation={90} schX={10} schY={-3}
+    >
+      <footprint insertionDirection="from_above" />
+    </connector>
 
     {/* ══ 接线：电源与地 ════════════════════════════════════════════════ */}
     {/* VDD 有 4 个同名脚，只能按脚号引用 */}
@@ -266,13 +287,13 @@ export const McuSection = (props: { pcbX?: number; pcbY?: number }) => (
     {/* ARM 标准 10 脚：1=VCC 2=SWDIO 3=GND 4=SWCLK 5=GND 6=SWO 7=KEY 8=NC 9=GND 10=NRST */}
     <trace name="SWDIO_MCU" from="U3.pin46" to={NET.SWDIO} />
     <trace name="SWCLK_MCU" from="U3.pin49" to={NET.SWCLK} />
-    <trace name="J11_VCC" from="J11.pin1" to={NET.V3_3} />
-    <trace name="J11_SWDIO" from="J11.pin2" to={NET.SWDIO} />
-    <trace name="J11_GND1" from="J11.pin3" to={NET.GND} />
-    <trace name="J11_SWCLK" from="J11.pin4" to={NET.SWCLK} />
-    <trace name="J11_GND2" from="J11.pin5" to={NET.GND} />
-    <trace name="J11_GND3" from="J11.pin9" to={NET.GND} />
-    <trace name="J11_NRST" from="J11.pin10" to={NET.NRST} />
+    <trace name="J11_VCC" from="J11.VCC" to={NET.V3_3} />
+    <trace name="J11_SWDIO" from="J11.SWDIO" to={NET.SWDIO} />
+    <trace name="J11_GND1" from="J11.GND1" to={NET.GND} />
+    <trace name="J11_SWCLK" from="J11.SWCLK" to={NET.SWCLK} />
+    <trace name="J11_GND2" from="J11.GND2" to={NET.GND} />
+    <trace name="J11_GND3" from="J11.GND3" to={NET.GND} />
+    <trace name="J11_NRST" from="J11.NRST" to={NET.NRST} />
 
     {/* ══ 接线：三路串口 ════════════════════════════════════════════════ */}
     <trace name="UART1_TX_MCU" from="U3.pin24" to={NET.UART1_TX} />
